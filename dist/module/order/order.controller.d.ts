@@ -4,11 +4,20 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 export declare class OrderController {
     private readonly orderService;
     constructor(orderService: OrderService);
-    saveFilteredData(data: any[]): Promise<any>;
+    approveOrder(file: Express.Multer.File, body: {
+        ticketNumber: string;
+        orderId: string;
+    }): Promise<import("./entities/order.entity").OrderEntity>;
+    deleteTicketImage(orderId: string): Promise<{
+        message: string;
+    }>;
+    saveArrayData(data: any[]): Promise<any>;
     checkIfExists(orderNumber?: string, operatorContract?: string): Promise<{
         exists: boolean;
     }>;
-    create(createOrderDto: CreateOrderDto): Promise<import("./entities/order.entity").OrderEntity[]>;
+    create(createOrderDto: CreateOrderDto): Promise<{
+        order: import("./entities/order.entity").OrderEntity[];
+    }>;
     findAll(status?: string, operator?: number, page?: number, limit?: number, search?: string, dateFrom?: string, dateTo?: string): Promise<{
         results: import("./entities/order.entity").OrderEntity[];
         total: number;
@@ -30,8 +39,8 @@ export declare class OrderController {
         origin: string;
         destination: string;
         itinerary: string;
-        quantity: number;
         travelDate: Date | null;
+        quantity: number;
         value: number;
         netValue: number;
         remarks: string;
@@ -54,8 +63,8 @@ export declare class OrderController {
         origin: string;
         destination: string;
         itinerary: string;
-        quantity: number;
         travelDate: Date | null;
+        quantity: number;
         value: number;
         netValue: number;
         remarks: string;

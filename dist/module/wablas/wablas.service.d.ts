@@ -6,6 +6,17 @@ export declare class WablasService {
     private readonly wablaRepository;
     constructor(wablaRepository: Repository<WablaEntity>);
     sendMessageWhatsapp(param: any): Promise<any>;
+    sendWhatsapp(sendWhatsappObject: any): Promise<{
+        apiResponse: any;
+        id: number;
+        deviceId: string;
+        deviceName: string;
+        whatsappNumber: string;
+        domain: string;
+        apiKeyToken: string;
+        secretKey: string;
+        user: import("../user/entities/user.entity").UserEntity;
+    }>;
     test(wablaId: string): Promise<{
         apiResponse: any;
         id: number;

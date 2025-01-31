@@ -20,6 +20,7 @@ const operator_module_1 = require("./module/operator/operator.module");
 const seeder_module_1 = require("./seed/seeder.module");
 const wablas_module_1 = require("./module/wablas/wablas.module");
 const mail_module_1 = require("./module/mail/mail.module");
+const fileupload_module_1 = require("./module/fileupload/fileupload.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -35,7 +36,8 @@ exports.AppModule = AppModule = __decorate([
             operator_module_1.OperatorModule,
             seeder_module_1.SeederModule,
             wablas_module_1.WablasModule,
-            mail_module_1.MailModule
+            mail_module_1.MailModule,
+            fileupload_module_1.FileuploadModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

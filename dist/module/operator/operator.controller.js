@@ -17,6 +17,10 @@ const common_1 = require("@nestjs/common");
 const operator_service_1 = require("./operator.service");
 const create_operator_dto_1 = require("./dto/create-operator.dto");
 const update_operator_dto_1 = require("./dto/update-operator.dto");
+const roles_decorator_1 = require("../../utils/roles/decorator/roles.decorator");
+const roles_enum_1 = require("../../utils/roles/enum/roles.enum");
+const auth_guard_1 = require("../auth/auth.guard");
+const roles_guard_1 = require("../../utils/roles/roles.guard");
 let OperatorController = class OperatorController {
     constructor(operatorService) {
         this.operatorService = operatorService;
@@ -52,6 +56,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OperatorController.prototype, "create", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)('page')),
     __param(1, (0, common_1.Query)('limit')),
@@ -61,6 +66,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OperatorController.prototype, "findAll", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
     (0, common_1.Get)('findByName/:name'),
     __param(0, (0, common_1.Param)('name')),
     __metadata("design:type", Function),
@@ -68,6 +74,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OperatorController.prototype, "findByName", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -90,6 +97,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OperatorController.prototype, "remove", null);
 exports.OperatorController = OperatorController = __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Controller)('operator'),
     __metadata("design:paramtypes", [operator_service_1.OperatorService])
 ], OperatorController);

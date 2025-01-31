@@ -17,9 +17,16 @@ const common_1 = require("@nestjs/common");
 const wablas_service_1 = require("./wablas.service");
 const create_wabla_dto_1 = require("./dto/create-wabla.dto");
 const update_wabla_dto_1 = require("./dto/update-wabla.dto");
+const roles_decorator_1 = require("../../utils/roles/decorator/roles.decorator");
+const roles_enum_1 = require("../../utils/roles/enum/roles.enum");
+const auth_guard_1 = require("../auth/auth.guard");
+const roles_guard_1 = require("../../utils/roles/roles.guard");
 let WablasController = class WablasController {
     constructor(wablasService) {
         this.wablasService = wablasService;
+    }
+    sendWhatsapp() {
+        return this.wablasService.sendWhatsapp('51918221790');
     }
     test(wablaId) {
         return this.wablasService.test(wablaId);
@@ -41,6 +48,12 @@ let WablasController = class WablasController {
     }
 };
 exports.WablasController = WablasController;
+__decorate([
+    (0, common_1.Post)('sendWhatsapp'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], WablasController.prototype, "sendWhatsapp", null);
 __decorate([
     (0, common_1.Post)('send-test/:wablaId'),
     __param(0, (0, common_1.Param)('wablaId')),
@@ -84,6 +97,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], WablasController.prototype, "remove", null);
 exports.WablasController = WablasController = __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Controller)('wablas'),
     __metadata("design:paramtypes", [wablas_service_1.WablasService])
 ], WablasController);

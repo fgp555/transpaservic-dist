@@ -18,6 +18,10 @@ const info_service_1 = require("./info.service");
 const common_2 = require("@nestjs/common");
 const fs = require("fs");
 const path = require("path");
+const roles_decorator_1 = require("../../utils/roles/decorator/roles.decorator");
+const roles_enum_1 = require("../../utils/roles/enum/roles.enum");
+const auth_guard_1 = require("../../module/auth/auth.guard");
+const roles_guard_1 = require("../../utils/roles/roles.guard");
 let InfoController = class InfoController {
     constructor(infoService) {
         this.infoService = infoService;
@@ -192,6 +196,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], InfoController.prototype, "getEnvFile", null);
 exports.InfoController = InfoController = __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Controller)('info'),
     __metadata("design:paramtypes", [info_service_1.InfoService])
 ], InfoController);

@@ -8,6 +8,10 @@ export declare class AuthController {
     private readonly emailTemplatesService;
     private readonly authPasswordService;
     constructor(userService: UserService, jwtService: JwtService, emailTemplatesService: MailTemplatesService, authPasswordService: AuthPasswordService);
+    uploadSingle(file: Express.Multer.File): {
+        message: string;
+        filename: string;
+    };
     signup(body: any): Promise<{
         id: number;
         firstName: string;

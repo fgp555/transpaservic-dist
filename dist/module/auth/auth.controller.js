@@ -17,14 +17,26 @@ const common_1 = require("@nestjs/common");
 const user_service_1 = require("../user/user.service");
 const bcrypt = require("bcrypt");
 const jwt_1 = require("@nestjs/jwt");
+const auth_guard_1 = require("./auth.guard");
 const mail_template_service_1 = require("../mail/mail-template.service");
 const auth_password_service_1 = require("./auth.password.service");
+const platform_express_1 = require("@nestjs/platform-express");
+const roles_enum_1 = require("../../utils/roles/enum/roles.enum");
+const roles_decorator_1 = require("../../utils/roles/decorator/roles.decorator");
+const roles_guard_1 = require("../../utils/roles/roles.guard");
 let AuthController = class AuthController {
     constructor(userService, jwtService, emailTemplatesService, authPasswordService) {
         this.userService = userService;
         this.jwtService = jwtService;
         this.emailTemplatesService = emailTemplatesService;
         this.authPasswordService = authPasswordService;
+    }
+    uploadSingle(file) {
+        console.log('file', file);
+        return {
+            message: 'Archivo cargado exitosamente',
+            filename: file.filename,
+        };
     }
     async signup(body) {
         console.log('body', body);
@@ -48,21 +60,22 @@ let AuthController = class AuthController {
             }
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException('Failed to create user', error.message);
+            throw new common_1.InternalServerErrorException('Error al crear el usuario', error.message);
         }
     }
     async singin(createAuthDto) {
         const foundEmail = await this.userService.findOneEmail(createAuthDto.email);
         if (!foundEmail)
-            throw new common_1.UnauthorizedException('Incorrect email or password');
+            throw new common_1.UnauthorizedException('Correo electrónico o contraseña incorrectos');
         const isPasswordValid = await bcrypt.compare(createAuthDto.password, foundEmail.password);
         if (!isPasswordValid)
-            throw new common_1.UnauthorizedException('Incorrect email or password');
+            throw new common_1.UnauthorizedException('Correo electrónico o contraseña incorrectos');
         const { password, ...user } = foundEmail;
         const userPayload = {
             sub: foundEmail.id,
             id: foundEmail.id,
             email: foundEmail.email,
+            roles: [foundEmail.role === 'admin' ? roles_enum_1.RolesEnum.Admin : roles_enum_1.RolesEnum.User],
         };
         const token = this.jwtService.sign(userPayload);
         return { login: true, user, token };
@@ -77,7 +90,7 @@ let AuthController = class AuthController {
             return withoutPassword;
         }
         catch (error) {
-            throw new common_1.InternalServerErrorException('Failed to update user', error.message);
+            throw new common_1.InternalServerErrorException('No se pudo actualizar el usuario', error.message);
         }
     }
     async forgotPassword(body) {
@@ -96,6 +109,16 @@ let AuthController = class AuthController {
 };
 exports.AuthController = AuthController;
 __decorate([
+    (0, common_1.Post)('single'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    __param(0, (0, common_1.UploadedFile)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "uploadSingle", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Post)('signup'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -110,6 +133,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "singin", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Patch)('update/:id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),

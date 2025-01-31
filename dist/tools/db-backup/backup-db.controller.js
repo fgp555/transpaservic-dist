@@ -18,6 +18,10 @@ const fs = require("fs");
 const path = require("path");
 const backup_db_service_1 = require("./backup-db.service");
 const platform_express_1 = require("@nestjs/platform-express");
+const roles_decorator_1 = require("../../utils/roles/decorator/roles.decorator");
+const roles_enum_1 = require("../../utils/roles/enum/roles.enum");
+const auth_guard_1 = require("../../module/auth/auth.guard");
+const roles_guard_1 = require("../../utils/roles/roles.guard");
 let BackupDBController = class BackupDBController {
     constructor(backupService) {
         this.backupService = backupService;
@@ -189,6 +193,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BackupDBController.prototype, "uploadBackupFile", null);
 exports.BackupDBController = BackupDBController = __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Controller)('database'),
     __metadata("design:paramtypes", [backup_db_service_1.BackupDBService])
 ], BackupDBController);

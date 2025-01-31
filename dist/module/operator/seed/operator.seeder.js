@@ -24,7 +24,7 @@ let OperatorSeederService = class OperatorSeederService {
     async seed() {
         const dataDemo = [
             {
-                name: 'Copetran',
+                name: 'COPETRAN',
                 username: 'copetran',
                 whatsapp: '987987987',
                 email: 'contact@copetran.com',
@@ -32,7 +32,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Cootransunidos',
+                name: 'COOTRANSUNIDOS',
                 username: 'cootransunidos',
                 whatsapp: '987987988',
                 email: 'contact@cootransunidos.com',
@@ -40,7 +40,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Cotaxi',
+                name: 'COTAXI',
                 username: 'cotaxi',
                 whatsapp: '987987989',
                 email: 'contact@cotaxi.com',
@@ -48,7 +48,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Cootransmagdalena',
+                name: 'COOTRANSMAGDALENA',
                 username: 'cootransmagdalena',
                 whatsapp: '987987990',
                 email: 'contact@cootransmagdalena.com',
@@ -56,7 +56,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Transsander',
+                name: 'TRANSSANDER',
                 username: 'transsander',
                 whatsapp: '987987991',
                 email: 'contact@transsander.com',
@@ -64,7 +64,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Concorde',
+                name: 'CONCORDE',
                 username: 'concorde',
                 whatsapp: '987987992',
                 email: 'contact@concorde.com',
@@ -72,7 +72,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Transricaurte',
+                name: 'TRANSRICAURTE',
                 username: 'transricaurte',
                 whatsapp: '987987993',
                 email: 'contact@transricaurte.com',
@@ -80,7 +80,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Catatumbo',
+                name: 'CATATUMBO',
                 username: 'catatumbo',
                 whatsapp: '987987994',
                 email: 'contact@catatumbo.com',
@@ -88,7 +88,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Cotrans',
+                name: 'COTRANS',
                 username: 'cotrans',
                 whatsapp: '987987995',
                 email: 'contact@cotrans.com',
@@ -96,7 +96,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Sotracor',
+                name: 'SOTRACOR',
                 username: 'sotracor',
                 whatsapp: '987987996',
                 email: 'contact@sotracor.com',
@@ -104,7 +104,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Traescor',
+                name: 'TRAESCOR',
                 username: 'traescor',
                 whatsapp: '987987997',
                 email: 'contact@traescor.com',
@@ -112,7 +112,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Ballegom',
+                name: 'BALLEGOM',
                 username: 'ballegom',
                 whatsapp: '987987998',
                 email: 'contact@ballegom.com',
@@ -120,7 +120,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Cotransar',
+                name: 'COTRANSAR',
                 username: 'cotransar',
                 whatsapp: '987987999',
                 email: 'contact@cotransar.com',
@@ -128,7 +128,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Cootransmor',
+                name: 'COOTRANSMOR',
                 username: 'cootransmor',
                 whatsapp: '987988000',
                 email: 'contact@cootransmor.com',
@@ -136,7 +136,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Sotramagdalena',
+                name: 'SOTRAMAGDALENA',
                 username: 'sotramagdalena',
                 whatsapp: '987988001',
                 email: 'contact@sotramagdalena.com',
@@ -144,7 +144,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Cotrasangil',
+                name: 'COTRASANGIL',
                 username: 'cotrasangil',
                 whatsapp: '987988002',
                 email: 'contact@cotrasangil.com',
@@ -152,7 +152,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Cotrasaravita',
+                name: 'COTRASARAVITA',
                 username: 'cotrasaravita',
                 whatsapp: '987988003',
                 email: 'contact@cotrasaravita.com',
@@ -160,7 +160,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Cotranstame',
+                name: 'COTRANSTAME',
                 username: 'cotranstame',
                 whatsapp: '987988004',
                 email: 'contact@cotranstame.com',
@@ -168,7 +168,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Cotranal',
+                name: 'COTRANAL',
                 username: 'cotranal',
                 whatsapp: '987988005',
                 email: 'contact@cotranal.com',
@@ -176,7 +176,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Motilones',
+                name: 'MOTILONES',
                 username: 'motilones',
                 whatsapp: '987988006',
                 email: 'contact@motilones.com',
@@ -184,7 +184,7 @@ let OperatorSeederService = class OperatorSeederService {
                 registrationDate: new Date('2025-01-12'),
             },
             {
-                name: 'Cooptmotilon',
+                name: 'COOPTMOTILON',
                 username: 'cooptmotilon',
                 whatsapp: '987988007',
                 email: 'contact@cooptmotilon.com',

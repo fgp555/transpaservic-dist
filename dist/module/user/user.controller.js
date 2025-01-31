@@ -16,6 +16,10 @@ exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 const create_user_dto_1 = require("./dtos/create-user.dto");
+const roles_decorator_1 = require("../../utils/roles/decorator/roles.decorator");
+const roles_enum_1 = require("../../utils/roles/enum/roles.enum");
+const auth_guard_1 = require("../auth/auth.guard");
+const roles_guard_1 = require("../../utils/roles/roles.guard");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -66,6 +70,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "create", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
     (0, common_1.Get)('findAll'),
     __param(0, (0, common_1.Query)('operator')),
     __param(1, (0, common_1.Query)('page')),
@@ -77,6 +82,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAll", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
     (0, common_1.Get)('by-email'),
     __param(0, (0, common_1.Query)('email')),
     __metadata("design:type", Function),
@@ -84,6 +90,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findByEmail", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
     (0, common_1.Get)('role'),
     __param(0, (0, common_1.Query)('role')),
     __param(1, (0, common_1.Query)('orderBy')),
@@ -94,6 +101,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findByRole", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
     (0, common_1.Get)('findOne/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -108,6 +116,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "remove", null);
 exports.UserController = UserController = __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);

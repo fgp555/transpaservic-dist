@@ -1,14 +1,24 @@
 import { Repository } from 'typeorm';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrderEntity, OrderStatus } from './entities/order.entity';
+import { OperatorEntity } from '../operator/entities/operator.entity';
+import { WablasService } from '../wablas/wablas.service';
 export declare class OrderService {
     private readonly orderRepository;
-    constructor(orderRepository: Repository<OrderEntity>);
-    saveFilteredData(data: any[]): Promise<any>;
+    private readonly operatorRepository;
+    private readonly wablasService;
+    constructor(orderRepository: Repository<OrderEntity>, operatorRepository: Repository<OperatorEntity>, wablasService: WablasService);
+    approveOrder(orderId: string, ticketNumber: string, filename: string): Promise<OrderEntity>;
+    deleteTicketImage(orderId: string): Promise<{
+        message: string;
+    }>;
+    saveArrayData(data: any[]): Promise<any>;
+    create(createOrderDto: any): Promise<{
+        order: OrderEntity[];
+    }>;
     checkIfExists(orderNumber?: string, operatorContract?: string): Promise<{
         exists: boolean;
     }>;
-    create(createOrderDto: any): Promise<OrderEntity[]>;
     findAll(filters: {
         status?: string;
         operator?: number;
@@ -38,8 +48,8 @@ export declare class OrderService {
         origin: string;
         destination: string;
         itinerary: string;
-        quantity: number;
         travelDate: Date | null;
+        quantity: number;
         value: number;
         netValue: number;
         remarks: string;
@@ -62,8 +72,8 @@ export declare class OrderService {
         origin: string;
         destination: string;
         itinerary: string;
-        quantity: number;
         travelDate: Date | null;
+        quantity: number;
         value: number;
         netValue: number;
         remarks: string;

@@ -15,12 +15,14 @@ const user_entity_1 = require("../user/entities/user.entity");
 const jwt_1 = require("@nestjs/jwt");
 const mail_module_1 = require("../mail/mail.module");
 const auth_password_service_1 = require("./auth.password.service");
+const fileupload_module_1 = require("../fileupload/fileupload.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            fileupload_module_1.FileuploadModule,
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.UserEntity]),
             jwt_1.JwtModule.register({
                 global: true,

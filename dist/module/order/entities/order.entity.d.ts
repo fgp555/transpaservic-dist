@@ -18,13 +18,13 @@ export declare class OrderEntity {
     origin: string;
     destination: string;
     itinerary: string;
-    quantity: number;
     travelDate: Date | null;
+    quantity: number;
     value: number;
     netValue: number;
     remarks: string;
-    status: OrderStatus;
     operator: OperatorEntity;
+    status: OrderStatus;
     ticketNumber: string;
     ticketImage: string;
 }

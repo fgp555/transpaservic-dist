@@ -21,7 +21,7 @@ exports.WablasModule = WablasModule = __decorate([
         imports: [typeorm_1.TypeOrmModule.forFeature([wabla_entity_1.WablaEntity])],
         controllers: [wablas_controller_1.WablasController],
         providers: [wablas_service_1.WablasService, wablas_seeder_1.WablasSeeder],
-        exports: [wablas_seeder_1.WablasSeeder],
+        exports: [wablas_seeder_1.WablasSeeder, wablas_service_1.WablasService],
     })
 ], WablasModule);
 //# sourceMappingURL=wablas.module.js.map

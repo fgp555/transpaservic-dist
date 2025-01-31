@@ -55,7 +55,7 @@ __decorate([
     __metadata("design:type", String)
 ], OrderEntity.prototype, "idCard", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'user_phone', type: 'varchar', length: 20 }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 20 }),
     __metadata("design:type", String)
 ], OrderEntity.prototype, "userPhone", void 0);
 __decorate([
@@ -63,7 +63,11 @@ __decorate([
     __metadata("design:type", String)
 ], OrderEntity.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'date', nullable: false }),
+    (0, typeorm_1.Column)({
+        type: 'datetime',
+        nullable: false,
+        default: () => 'CURRENT_TIMESTAMP',
+    }),
     __metadata("design:type", Date)
 ], OrderEntity.prototype, "creationDate", void 0);
 __decorate([
@@ -79,13 +83,13 @@ __decorate([
     __metadata("design:type", String)
 ], OrderEntity.prototype, "itinerary", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'quantity', type: 'int' }),
-    __metadata("design:type", Number)
-], OrderEntity.prototype, "quantity", void 0);
-__decorate([
     (0, typeorm_1.Column)({ name: 'travel_date', type: 'date', nullable: true }),
     __metadata("design:type", Date)
 ], OrderEntity.prototype, "travelDate", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ name: 'quantity', type: 'int' }),
+    __metadata("design:type", Number)
+], OrderEntity.prototype, "quantity", void 0);
 __decorate([
     (0, typeorm_1.Column)({ name: 'value', type: 'decimal', precision: 10, scale: 2 }),
     __metadata("design:type", Number)
@@ -99,6 +103,10 @@ __decorate([
     __metadata("design:type", String)
 ], OrderEntity.prototype, "remarks", void 0);
 __decorate([
+    (0, typeorm_1.ManyToOne)(() => operator_entity_1.OperatorEntity, (t) => t.orders),
+    __metadata("design:type", operator_entity_1.OperatorEntity)
+], OrderEntity.prototype, "operator", void 0);
+__decorate([
     (0, typeorm_1.Column)({
         name: 'status',
         type: 'enum',
@@ -107,10 +115,6 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], OrderEntity.prototype, "status", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => operator_entity_1.OperatorEntity, (t) => t.orders),
-    __metadata("design:type", operator_entity_1.OperatorEntity)
-], OrderEntity.prototype, "operator", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)

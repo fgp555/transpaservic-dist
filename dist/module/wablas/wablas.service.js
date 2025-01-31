@@ -25,6 +25,68 @@ let WablasService = class WablasService {
         console.log('param', param);
         return param;
     }
+    async sendWhatsapp(sendWhatsappObject) {
+        const wablaId = 1;
+        const res = await this.wablaRepository.findOne({ where: { id: wablaId } });
+        if (!res) {
+            throw new common_1.HttpException(`No se encontró el registro con ID ${wablaId}.`, common_1.HttpStatus.NOT_FOUND);
+        }
+        const newDate = new Date().toLocaleString('es-CO', {
+            dateStyle: 'long',
+            timeStyle: 'medium',
+        });
+        const timeOnly = new Date().toLocaleString('es-CO', {
+            timeStyle: 'medium',
+        });
+        function agregarPrefijo(numero) {
+            const numStr = numero.toString();
+            if (numStr.length === 10) {
+                return '57' + numStr;
+            }
+            return numStr;
+        }
+        function obtenerPrimerNombre(nombreCompleto) {
+            const primerNombre = nombreCompleto.split(' ')[0];
+            return primerNombre;
+        }
+        function capitalizar(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        }
+        const { userPhone, phoneOperator, websiteOperator, nameOperator, patientName, } = sendWhatsappObject;
+        const phoneDest = agregarPrefijo(userPhone);
+        const firstName = obtenerPrimerNombre(patientName);
+        const nameCapitalOperator = capitalizar(nameOperator);
+        const source = 'nestjs';
+        const message = `%0A%0A *Estimado Usuario ${firstName}*
+%0A%0A Nos complace informarle que sus tiquetes de viaje han sido emitidos.
+%0A%0A Para mayor información, puede comunicarse con el operador a través de los siguientes canales:
+%0A%0A 📞 PBX: ${phoneOperator}
+%0A 🎟️ Taquillas en la terminal de operador _${nameCapitalOperator}_
+%0A 🌐 Sitio web: ${websiteOperator}
+%0A%0A ¡Le deseamos un excelente viaje!
+%0A%0A 📅 ` + newDate;
+        const fullURL = `${res.domain}/api/send-message?source=${source}&phone=${phoneDest}&message=${message}&token=${res.apiKeyToken}.${res.secretKey}`;
+        try {
+            const response = await fetch(fullURL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Cuerpo del error:', errorText);
+                throw new common_1.HttpException(`Error en la API remota: Código ${response.status} - ${response.statusText}. Detalles: ${errorText}`, common_1.HttpStatus.BAD_GATEWAY);
+            }
+            const data = await response.json();
+            console.log('Respuesta de la API remota:', data);
+            return { ...res, apiResponse: data };
+        }
+        catch (error) {
+            console.error('Error en la solicitud:', error);
+            throw new common_1.HttpException(`Ocurrió un error al intentar conectar con el servicio remoto: ${error.message}`, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     async test(wablaId) {
         const res = await this.wablaRepository.findOne({ where: { id: +wablaId } });
         if (!res) {
@@ -33,10 +95,10 @@ let WablasService = class WablasService {
         const phoneDest = '51918221790';
         const source = 'nestjs';
         const message = `*Estimado Usuario:*
-%0A%0A Nos complace informarle que sus tiquetes de operatore han sido emitidos.
+%0A%0A Nos complace informarle que sus tiquetes de viaje han sido emitidos.
 %0A%0A Para mayor información, puede comunicarse con el operador a través de los siguientes canales:
 %0A%0A 📞 PBX: +573339990999
-%0A 🎟️ Taquillas en la terminal de operatore
+%0A 🎟️ Taquillas en la terminal de operador
 %0A 🌐 Sitio web: https://copetran.com
 %0A%0A ¡Le deseamos un excelente viaje!
 %0A%0A 📅 ` +

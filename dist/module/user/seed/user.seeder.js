@@ -32,7 +32,6 @@ let UserSeederService = class UserSeederService {
                 role: 'admin',
                 sendMail: false,
                 sendWhatsApp: false,
-                image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
                 operator: { id: 1 },
             },
             {
@@ -46,7 +45,6 @@ let UserSeederService = class UserSeederService {
                 role: 'user',
                 sendMail: false,
                 sendWhatsApp: false,
-                image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
                 operator: { id: 2 },
             },
             {
@@ -60,7 +58,6 @@ let UserSeederService = class UserSeederService {
                 role: 'user',
                 sendMail: true,
                 sendWhatsApp: false,
-                image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
                 operator: { id: 3 },
             },
             {
@@ -74,7 +71,6 @@ let UserSeederService = class UserSeederService {
                 role: 'user',
                 sendMail: false,
                 sendWhatsApp: true,
-                image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
                 operator: { id: 1 },
             },
             {
@@ -88,7 +84,6 @@ let UserSeederService = class UserSeederService {
                 role: 'user',
                 sendMail: false,
                 sendWhatsApp: true,
-                image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
                 operator: { id: 2 },
             },
             {
@@ -102,7 +97,6 @@ let UserSeederService = class UserSeederService {
                 role: 'admin',
                 sendMail: true,
                 sendWhatsApp: true,
-                image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
                 operator: { id: 3 },
             },
             {
@@ -116,7 +110,6 @@ let UserSeederService = class UserSeederService {
                 role: 'user',
                 sendMail: false,
                 sendWhatsApp: false,
-                image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
                 operator: { id: 1 },
             },
             {
@@ -130,7 +123,6 @@ let UserSeederService = class UserSeederService {
                 role: 'user',
                 sendMail: true,
                 sendWhatsApp: false,
-                image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
                 operator: { id: 2 },
             },
             {
@@ -144,12 +136,10 @@ let UserSeederService = class UserSeederService {
                 role: 'admin',
                 sendMail: true,
                 sendWhatsApp: true,
-                image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
                 operator: { id: 1 },
             },
             {
                 firstName: 'Transpaservic',
-                lastName: 'transpaservic',
                 whatsapp: '+51277889900',
                 username: 'transpaservic',
                 email: 'admin@transpaservic.com.co',

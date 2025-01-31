@@ -19,8 +19,8 @@
         "netValue": 120000,
         "serviceProvider": "motilones",
         "userPhone": "3124163032",
-        "operator": { "id": 1 },
-        "ticketImage": "https://frankgp.web.app/systered/ticket-print-01.jpeg",
+        "operator": { "id": 2 },
+        "ticketImage": "ticket-print-01.jpeg",
         "ticketNumber": "123456",
         "status": "aprobado"
     },
@@ -43,7 +43,7 @@
         "netValue": 120000,
         "serviceProvider": "motilones",
         "userPhone": "3124163032",
-        "operator": { "id": 2 },
+        "operator": { "id": 3 },
         "status": "cancelado"
     },
     {
@@ -66,7 +66,7 @@
         "netValue": 80000,
         "serviceProvider": "transCali",
         "userPhone": "3156547890",
-        "ticketImage": "https://frankgp.web.app/systered/ticket-print-01.jpeg",
+        "ticketImage": "ticket-print-02.jpeg",
         "operator": { "id": 3 },
         "ticketNumber": "123456",
         "status": "aprobado"
@@ -90,7 +90,7 @@
         "netValue": 210000,
         "serviceProvider": "transMedellin",
         "userPhone": "3169876543",
-        "operator": { "id": 4 }
+        "operator": { "id": 3 }
     },
     {
         "operatorContract": "12218552",
@@ -111,11 +111,10 @@
         "value": 50000,
         "netValue": 50000,
         "serviceProvider": "transCaribe",
-        "ticketImage": "https://frankgp.web.app/systered/ticket-print-01.jpeg",
         "userPhone": "3174561230",
-        "operator": { "id": 5 },
+        "operator": { "id": 2 },
         "ticketNumber": "123456",
-        "status": "aprobado"
+        "status": "cancelado"
     },
     {
         "operatorContract": "12218553",
@@ -136,7 +135,7 @@
         "netValue": 80000,
         "serviceProvider": "transEje",
         "userPhone": "3187894560",
-        "operator": { "id": 1 }
+        "operator": { "id": 2 }
     },
     {
         "operatorContract": "12218554",

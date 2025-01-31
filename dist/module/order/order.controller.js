@@ -17,19 +17,31 @@ const common_1 = require("@nestjs/common");
 const order_service_1 = require("./order.service");
 const create_order_dto_1 = require("./dto/create-order.dto");
 const update_order_dto_1 = require("./dto/update-order.dto");
+const platform_express_1 = require("@nestjs/platform-express");
+const roles_decorator_1 = require("../../utils/roles/decorator/roles.decorator");
+const roles_enum_1 = require("../../utils/roles/enum/roles.enum");
+const auth_guard_1 = require("../auth/auth.guard");
+const roles_guard_1 = require("../../utils/roles/roles.guard");
 let OrderController = class OrderController {
     constructor(orderService) {
         this.orderService = orderService;
     }
-    async saveFilteredData(data) {
+    approveOrder(file, body) {
+        const { ticketNumber, orderId } = body;
+        return this.orderService.approveOrder(orderId, ticketNumber, file.filename);
+    }
+    deleteTicketImage(orderId) {
+        return this.orderService.deleteTicketImage(orderId);
+    }
+    async saveArrayData(data) {
         if (!Array.isArray(data) || data.length === 0) {
             throw new common_1.HttpException('El dato proporcionado debe ser un array no vacío', common_1.HttpStatus.BAD_REQUEST);
         }
-        return this.orderService.saveFilteredData(data);
+        return this.orderService.saveArrayData(data);
     }
     async checkIfExists(orderNumber, operatorContract) {
         if (!orderNumber && !operatorContract) {
-            throw new common_1.BadRequestException('You must provide either orderNumber or operatorContract.');
+            throw new common_1.BadRequestException('Debes proporcionar al menos orderNumber o operatorContract.');
         }
         return this.orderService.checkIfExists(orderNumber, operatorContract);
     }
@@ -62,13 +74,31 @@ let OrderController = class OrderController {
 };
 exports.OrderController = OrderController;
 __decorate([
-    (0, common_1.Post)('save-filtered-data'),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
+    (0, common_1.Post)('approve'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    __param(0, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], OrderController.prototype, "approveOrder", null);
+__decorate([
+    (0, common_1.Delete)('delete-ticket-image/:orderId'),
+    __param(0, (0, common_1.Param)('orderId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], OrderController.prototype, "deleteTicketImage", null);
+__decorate([
+    (0, common_1.Post)('save-array-data'),
     __param(0, (0, common_1.Body)('data')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", Promise)
-], OrderController.prototype, "saveFilteredData", null);
+], OrderController.prototype, "saveArrayData", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
     (0, common_1.Get)('exists'),
     __param(0, (0, common_1.Query)('orderNumber')),
     __param(1, (0, common_1.Query)('operatorContract')),
@@ -84,6 +114,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "create", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)('status')),
     __param(1, (0, common_1.Query)('operator')),
@@ -97,12 +128,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "findAll", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
     (0, common_1.Get)('status/enum'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "statusEnum", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -125,6 +158,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "remove", null);
 exports.OrderController = OrderController = __decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Controller)('order'),
     __metadata("design:paramtypes", [order_service_1.OrderService])
 ], OrderController);

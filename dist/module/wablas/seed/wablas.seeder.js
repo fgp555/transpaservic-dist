@@ -24,7 +24,7 @@ let WablasSeeder = class WablasSeeder {
             whatsappNumber: '573229650957',
             domain: 'https://texas.wablas.com',
             apiKeyToken: process.env.WABLAS_TOKEN,
-            secretKey: 'vioHvID1',
+            secretKey: 'LMhRywB3',
             user: 1,
         };
         await this.wablasService.create(data);

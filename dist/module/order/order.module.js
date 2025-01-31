@@ -13,14 +13,21 @@ const order_controller_1 = require("./order.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const order_seeder_1 = require("./seed/order.seeder");
 const order_entity_1 = require("./entities/order.entity");
+const fileupload_module_1 = require("../fileupload/fileupload.module");
+const operator_entity_1 = require("../operator/entities/operator.entity");
+const wablas_service_1 = require("../wablas/wablas.service");
+const wabla_entity_1 = require("../wablas/entities/wabla.entity");
 let OrderModule = class OrderModule {
 };
 exports.OrderModule = OrderModule;
 exports.OrderModule = OrderModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([order_entity_1.OrderEntity])],
+        imports: [
+            fileupload_module_1.FileuploadModule,
+            typeorm_1.TypeOrmModule.forFeature([order_entity_1.OrderEntity, operator_entity_1.OperatorEntity, wabla_entity_1.WablaEntity]),
+        ],
         controllers: [order_controller_1.OrderController],
-        providers: [order_service_1.OrderService, order_seeder_1.OrderSeederService],
+        providers: [order_service_1.OrderService, order_seeder_1.OrderSeederService, wablas_service_1.WablasService],
     })
 ], OrderModule);
 //# sourceMappingURL=order.module.js.map

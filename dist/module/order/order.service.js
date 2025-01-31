@@ -17,11 +17,52 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const order_entity_1 = require("./entities/order.entity");
+const fs = require("fs");
+const operator_entity_1 = require("../operator/entities/operator.entity");
+const wablas_service_1 = require("../wablas/wablas.service");
 let OrderService = class OrderService {
-    constructor(orderRepository) {
+    constructor(orderRepository, operatorRepository, wablasService) {
         this.orderRepository = orderRepository;
+        this.operatorRepository = operatorRepository;
+        this.wablasService = wablasService;
     }
-    async saveFilteredData(data) {
+    async approveOrder(orderId, ticketNumber, filename) {
+        const order = await this.orderRepository.findOne({
+            where: { id: +orderId },
+        });
+        if (!order) {
+            throw new common_1.NotFoundException('Order not found');
+        }
+        order.ticketNumber = ticketNumber;
+        order.status = order_entity_1.OrderStatus.APROBADO;
+        order.ticketImage = filename;
+        return await this.orderRepository.save(order);
+    }
+    async deleteTicketImage(orderId) {
+        const order = await this.orderRepository.findOne({
+            where: { id: +orderId },
+        });
+        if (!order) {
+            throw new common_1.NotFoundException('Orden no encontrada');
+        }
+        if (order.ticketImage) {
+            const imagePath = `./uploads/${order.ticketImage}`;
+            try {
+                if (fs.existsSync(imagePath)) {
+                    fs.unlinkSync(imagePath);
+                }
+            }
+            catch (error) {
+                throw new common_1.InternalServerErrorException('Error al eliminar la imagen del ticket');
+            }
+        }
+        order.ticketImage = null;
+        order.status = order_entity_1.OrderStatus.PENDIENTE;
+        order.ticketNumber = null;
+        await this.orderRepository.save(order);
+        return { message: 'Imagen del ticket eliminada correctamente, si existía' };
+    }
+    async saveArrayData(data) {
         const duplicates = {
             operatorContract: [],
             orderNumber: [],
@@ -48,28 +89,34 @@ let OrderService = class OrderService {
             }, common_1.HttpStatus.BAD_REQUEST);
         }
         try {
+            for (const item of data) {
+                const operator = await this.operatorRepository.findOne({
+                    where: { name: item.operator },
+                });
+                if (!operator) {
+                    throw new common_1.HttpException(`Operador "${item.operator}" no encontrado en la base de datos.`, common_1.HttpStatus.BAD_REQUEST);
+                }
+                item.operator = operator;
+            }
             const savedOrders = await this.orderRepository.save(data);
+            for (const item of savedOrders) {
+                const sendWhatsappObject = {
+                    userPhone: item.userPhone,
+                    patientName: item.patientName,
+                    phoneOperator: item.operator.whatsapp,
+                    websiteOperator: item.operator.website,
+                    nameOperator: item.operator.name,
+                };
+                await this.wablasService.sendWhatsapp(sendWhatsappObject);
+            }
             return {
                 message: 'Datos filtrados guardados correctamente',
                 savedOrders,
             };
         }
         catch (error) {
-            throw new common_1.HttpException('Error al guardar los datos filtrados', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new common_1.HttpException(error.message || 'Error al guardar los datos filtrados', error.status || common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-    async checkIfExists(orderNumber, operatorContract) {
-        const conditions = {};
-        if (orderNumber) {
-            conditions.orderNumber = orderNumber;
-        }
-        if (operatorContract) {
-            conditions.operatorContract = operatorContract;
-        }
-        const order = await this.orderRepository.findOne({
-            where: conditions,
-        });
-        return { exists: !!order };
     }
     async create(createOrderDto) {
         const { operatorContract, orderNumber } = createOrderDto;
@@ -87,11 +134,36 @@ let OrderService = class OrderService {
         }
         const order = this.orderRepository.create(createOrderDto);
         try {
-            return await this.orderRepository.save(order);
+            const savedOrder = await this.orderRepository.save(order);
+            const findOperator = await this.operatorRepository.findOne({
+                where: { id: createOrderDto.operator.id },
+            });
+            const sendWhatsappObject = {
+                userPhone: createOrderDto.userPhone,
+                patientName: createOrderDto.patientName,
+                phoneOperator: findOperator.whatsapp,
+                websiteOperator: findOperator.website,
+                nameOperator: findOperator.name,
+            };
+            const wablas = this.wablasService.sendWhatsapp(sendWhatsappObject);
+            return { order: savedOrder };
         }
         catch (error) {
             throw new common_1.InternalServerErrorException('Ocurrió un error inesperado');
         }
+    }
+    async checkIfExists(orderNumber, operatorContract) {
+        const conditions = {};
+        if (orderNumber) {
+            conditions.orderNumber = orderNumber;
+        }
+        if (operatorContract) {
+            conditions.operatorContract = operatorContract;
+        }
+        const order = await this.orderRepository.findOne({
+            where: conditions,
+        });
+        return { exists: !!order };
     }
     async findAll(filters) {
         const { status, operator, page = 1, limit = 10, search, dateFrom, dateTo, } = filters;
@@ -131,7 +203,7 @@ let OrderService = class OrderService {
         if (limit) {
             queryBuilder.skip((page - 1) * limit).take(limit);
         }
-        queryBuilder.orderBy('order.creationDate', 'DESC');
+        queryBuilder.orderBy('order.id', 'DESC');
         const [results, total] = await queryBuilder.getManyAndCount();
         return {
             results,
@@ -173,6 +245,9 @@ exports.OrderService = OrderService;
 exports.OrderService = OrderService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(order_entity_1.OrderEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(operator_entity_1.OperatorEntity)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
+        wablas_service_1.WablasService])
 ], OrderService);
 //# sourceMappingURL=order.service.js.map
