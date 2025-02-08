@@ -1,0 +1,118 @@
+import { OrderService } from './order.service';
+import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderDto } from './dto/update-order.dto';
+export declare class OrderController {
+    private readonly orderService;
+    constructor(orderService: OrderService);
+    expireOldOrders(): Promise<void>;
+    approveOrder(file: Express.Multer.File, body: any): Promise<import("./entities/order.entity").OrderEntity>;
+    approvalTravelDate(body: any): Promise<import("./entities/order.entity").OrderEntity>;
+    deleteTicketImage(orderId: string): Promise<{
+        message: string;
+    }>;
+    saveArrayData(data: any[]): Promise<any>;
+    checkIfExists(orderNumber?: string, operatorContract?: string): Promise<{
+        exists: boolean;
+    }>;
+    create(createOrderDto: CreateOrderDto): Promise<{
+        order: import("./entities/order.entity").OrderEntity[];
+    }>;
+    findAll(status?: string, operator?: number, page?: number, limit?: number, search?: string, dateFrom?: string, dateTo?: string): Promise<{
+        results: import("./entities/order.entity").OrderEntity[];
+        total: number;
+        totalPages: number;
+    }>;
+    statusEnum(): Promise<import("./entities/order.entity").OrderStatus[]>;
+    findOne(id: string): Promise<{
+        operator: string;
+        id: number;
+        orderNumber: string;
+        patientName: string;
+        idCard: string;
+        userPhone: string;
+        itinerary: string;
+        creationDate: Date;
+        expirationDate: Date | null;
+        travelDate: Date | null;
+        approvalDate: Date | null;
+        approvalTravelDate: Date | null;
+        ticketNumber: string;
+        quantity: number;
+        approvalQuantity: number;
+        authorizationNumber: string;
+        operatorContract: string;
+        value: number;
+        netValue: number;
+        origin: string;
+        destination: string;
+        client: string;
+        remarks: string;
+        status: import("./entities/order.entity").OrderStatus;
+        ticketImage: string;
+        backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
+        email: string;
+    }>;
+    findOneOrderNumber(orderNumber: string): Promise<{
+        operator: string;
+        id: number;
+        orderNumber: string;
+        patientName: string;
+        idCard: string;
+        userPhone: string;
+        itinerary: string;
+        creationDate: Date;
+        expirationDate: Date | null;
+        travelDate: Date | null;
+        approvalDate: Date | null;
+        approvalTravelDate: Date | null;
+        ticketNumber: string;
+        quantity: number;
+        approvalQuantity: number;
+        authorizationNumber: string;
+        operatorContract: string;
+        value: number;
+        netValue: number;
+        origin: string;
+        destination: string;
+        client: string;
+        remarks: string;
+        status: import("./entities/order.entity").OrderStatus;
+        ticketImage: string;
+        backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
+        email: string;
+    }>;
+    createBackTicket(orderNumber: string, body: any): Promise<{
+        message: string;
+    }>;
+    update(id: string, updateOrderDto: UpdateOrderDto): Promise<{
+        operator: string;
+        id: number;
+        orderNumber: string;
+        patientName: string;
+        idCard: string;
+        userPhone: string;
+        itinerary: string;
+        creationDate: Date;
+        expirationDate: Date | null;
+        travelDate: Date | null;
+        approvalDate: Date | null;
+        approvalTravelDate: Date | null;
+        ticketNumber: string;
+        quantity: number;
+        approvalQuantity: number;
+        authorizationNumber: string;
+        operatorContract: string;
+        value: number;
+        netValue: number;
+        origin: string;
+        destination: string;
+        client: string;
+        remarks: string;
+        status: import("./entities/order.entity").OrderStatus;
+        ticketImage: string;
+        backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
+        email: string;
+    }>;
+    deleteBackTicket(id: string): Promise<import("typeorm").DeleteResult>;
+    remove(id: string): Promise<import("typeorm").DeleteResult>;
+}
