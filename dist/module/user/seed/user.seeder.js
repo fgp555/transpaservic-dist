@@ -18,16 +18,18 @@ let UserSeederService = class UserSeederService {
         this.userService = userService;
     }
     async seed() {
-        const hashedPasswordAdmin = await bcrypt.hash(process.env.ADMINPASS, 10);
-        const hashedPasswordUser = await bcrypt.hash('copetran123456', 10);
-        const hashedPasswordSuper = await bcrypt.hash(process.env.ADMINPASS + 'super', 10);
+        const ADMINPASS = process.env.ADMINPASS;
+        const hashedPassAdmin = await bcrypt.hash(ADMINPASS, 10);
+        const hashedPassUser = await bcrypt.hash('copetran123456', 10);
+        const hashedPassSuper = await bcrypt.hash(ADMINPASS + 'super', 10);
+        const hashedPassTester = await bcrypt.hash('P45sW0rD_Tester', 10);
         const users = [
             {
                 id: '3385ac2a-79f3-4f80-99b0-ca99f153619b',
                 firstName: 'Transpaservic',
                 email: 'admin@transpaservic.com.co',
-                password: hashedPasswordAdmin,
-                confirmPassword: hashedPasswordAdmin,
+                password: hashedPassAdmin,
+                confirmPassword: hashedPassAdmin,
                 role: 'admin',
                 sendMail: false,
                 image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
@@ -37,8 +39,8 @@ let UserSeederService = class UserSeederService {
                 firstName: 'Copetran',
                 whatsapp: '+51277889900',
                 email: 'copetran@transpaservic.com.co',
-                password: hashedPasswordUser,
-                confirmPassword: hashedPasswordUser,
+                password: hashedPassUser,
+                confirmPassword: hashedPassUser,
                 role: 'user',
                 sendMail: false,
                 operator: { id: 1 },
@@ -47,8 +49,8 @@ let UserSeederService = class UserSeederService {
                 id: '54695949-687c-45f5-b7df-4a08d810f0ee',
                 firstName: 'Super Admin',
                 email: 'desarrollotranspaservic@gmail.com',
-                password: hashedPasswordSuper,
-                confirmPassword: hashedPasswordSuper,
+                password: hashedPassSuper,
+                confirmPassword: hashedPassSuper,
                 role: 'superadmin',
                 sendMail: false,
                 image: 'https://i.postimg.cc/Zn1WqNzG/Transpa-Servic-Logo.webp',
@@ -58,13 +60,35 @@ let UserSeederService = class UserSeederService {
                 id: 'aa050617-c7ca-45f0-a64d-9192931a33e3',
                 firstName: 'User Collaborator',
                 email: 'collaborator@transpaservic.com.co',
-                password: hashedPasswordAdmin,
-                confirmPassword: hashedPasswordAdmin,
+                password: hashedPassAdmin,
+                confirmPassword: hashedPassAdmin,
                 role: 'collaborator',
                 sendMail: false,
                 operator: null,
             },
         ];
+        if (process.env.IS_DEVELOPER === 'true') {
+            users.push({
+                id: 'aa050617-c7ca-45f0-a64d-9192931a33e0',
+                firstName: 'User tester',
+                email: 'tester@systered.com',
+                password: hashedPassTester,
+                confirmPassword: hashedPassTester,
+                role: 'user',
+                sendMail: false,
+                operator: { id: 1 },
+            });
+            users.push({
+                id: 'aa050617-c7ca-45f0-a64d-9192931a33e5',
+                firstName: 'User tester',
+                email: 'tester@systered.com1',
+                password: hashedPassTester,
+                confirmPassword: hashedPassTester,
+                role: 'admin',
+                sendMail: false,
+                operator: { id: 1 },
+            });
+        }
         for (const user of users) {
             try {
                 if (user.email) {
