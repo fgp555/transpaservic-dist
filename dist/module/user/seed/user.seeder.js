@@ -77,11 +77,10 @@ let UserSeederService = class UserSeederService {
                 role: 'user',
                 sendMail: false,
                 operator: { id: 1 },
-            });
-            users.push({
+            }, {
                 id: 'aa050617-c7ca-45f0-a64d-9192931a33e5',
-                firstName: 'User tester',
-                email: 'tester@systered.com1',
+                firstName: 'User admin 2',
+                email: 'tester@systered.co',
                 password: hashedPassTester,
                 confirmPassword: hashedPassTester,
                 role: 'admin',
