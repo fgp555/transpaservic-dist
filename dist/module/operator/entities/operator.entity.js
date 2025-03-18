@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OperatorEntity = void 0;
+const notification_entity_1 = require("../../notification/entities/notification.entity");
 const order_entity_1 = require("../../order/entities/order.entity");
 const user_entity_1 = require("../../user/entities/user.entity");
 const typeorm_1 = require("typeorm");
@@ -55,6 +56,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => user_entity_1.UserEntity, (t) => t.operator, {}),
     __metadata("design:type", user_entity_1.UserEntity)
 ], OperatorEntity.prototype, "users", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => notification_entity_1.NotificationEntity, (notification) => notification.operator),
+    __metadata("design:type", Array)
+], OperatorEntity.prototype, "notifications", void 0);
 exports.OperatorEntity = OperatorEntity = __decorate([
     (0, typeorm_1.Entity)('operator')
 ], OperatorEntity);

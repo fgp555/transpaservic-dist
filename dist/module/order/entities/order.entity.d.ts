@@ -7,11 +7,25 @@ export declare enum OrderStatus {
     CANCELADO = "cancelado",
     EXPIRADO = "expirado"
 }
+export declare enum DocumentType {
+    CC = "CC",
+    CE = "CE",
+    CV = "CV",
+    NIT = "NIT",
+    PSP = "PSP",
+    PEP = "PEP",
+    PEPFF = "PEPFF",
+    PPT = "PPT",
+    TI = "TI",
+    OP = "OP",
+    NV = "NV"
+}
 export declare class OrderEntity {
     id: number;
     operator: OperatorEntity;
     orderNumber: string;
     patientName: string;
+    documentType: DocumentType;
     idCard: string;
     userPhone: string;
     itinerary: string;

@@ -14,21 +14,23 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderService = void 0;
 const common_1 = require("@nestjs/common");
+const order_history_entity_1 = require("./entities/order-history.entity");
+const back_ticket_entity_1 = require("./entities/back-ticket.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const order_entity_1 = require("./entities/order.entity");
-const fs = require("fs");
+const notification_service_1 = require("../notification/notification.service");
 const operator_entity_1 = require("../operator/entities/operator.entity");
+const order_entity_1 = require("./entities/order.entity");
 const wablas_service_1 = require("../wablas/wablas.service");
-const back_ticket_entity_1 = require("./entities/back-ticket.entity");
-const order_history_entity_1 = require("./entities/order-history.entity");
+const fs = require("fs");
 let OrderService = class OrderService {
-    constructor(orderRepository, backTicketRepository, orderHistoryRepository, operatorRepository, wablasService) {
+    constructor(orderRepository, backTicketRepository, orderHistoryRepository, operatorRepository, wablasService, notificationService) {
         this.orderRepository = orderRepository;
         this.backTicketRepository = backTicketRepository;
         this.orderHistoryRepository = orderHistoryRepository;
         this.operatorRepository = operatorRepository;
         this.wablasService = wablasService;
+        this.notificationService = notificationService;
     }
     async orderHistoryAll() {
         const orderHistory = await this.orderHistoryRepository.find();
@@ -111,74 +113,6 @@ let OrderService = class OrderService {
         const result = await this.orderRepository.save(order);
         return result;
     }
-    async saveArrayData(data, sendToWhatsApp) {
-        const duplicates = {
-            operatorContract: [],
-            orderNumber: [],
-        };
-        for (const item of data) {
-            const existingOperatorContract = await this.orderRepository.findOne({
-                where: { operatorContract: item.operatorContract },
-            });
-            if (existingOperatorContract) {
-                duplicates.operatorContract.push(item.operatorContract);
-            }
-            const existingOrderNumber = await this.orderRepository.findOne({
-                where: { orderNumber: item.orderNumber },
-            });
-            if (existingOrderNumber) {
-                duplicates.orderNumber.push(item.orderNumber);
-            }
-        }
-        if (duplicates.operatorContract.length > 0 ||
-            duplicates.orderNumber.length > 0) {
-            throw new common_1.HttpException({
-                message: 'Se han detectado entradas duplicadas',
-                duplicates,
-            }, common_1.HttpStatus.BAD_REQUEST);
-        }
-        try {
-            for (const item of data) {
-                const operator = await this.operatorRepository.findOne({
-                    where: { name: item.operator },
-                });
-                if (!operator) {
-                    throw new common_1.HttpException(`Operador "${item.operator}" no encontrado en la base de datos.`, common_1.HttpStatus.BAD_REQUEST);
-                }
-                item.operator = operator;
-                if (typeof item.userPhone === 'string' &&
-                    item.userPhone.includes(' / ')) {
-                    item.userPhone = item.userPhone.split(' / ')[0].trim();
-                }
-                if (!item.expirationDate) {
-                    const expirationDays = 30;
-                    const expirationDate = new Date();
-                    expirationDate.setDate(expirationDate.getDate() + expirationDays);
-                    item.expirationDate = expirationDate;
-                }
-            }
-            const savedOrders = await this.orderRepository.save(data);
-            if (sendToWhatsApp) {
-                for (const item of savedOrders) {
-                    const sendWhatsappObject = {
-                        userPhone: item.userPhone.split(' / ')[0],
-                        patientName: item.patientName,
-                        phoneOperator: item.operator.whatsapp,
-                        websiteOperator: item.operator.website,
-                        nameOperator: item.operator.name,
-                    };
-                    await this.wablasService.sendWhatsapp(sendWhatsappObject);
-                }
-            }
-            return {
-                message: 'Datos filtrados guardados correctamente',
-                savedOrders,
-            };
-        }
-        catch (error) {
-            throw new common_1.HttpException(error.message || 'Error al guardar los datos filtrados', error.status || common_1.HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
     async updateExpirationDates() {
         const ordersWithoutExpiration = await this.orderRepository.find({
             where: { expirationDate: null },
@@ -195,43 +129,6 @@ let OrderService = class OrderService {
             message: 'Fechas de expiración actualizadas correctamente',
             updatedOrders: ordersWithoutExpiration,
         };
-    }
-    async create(createOrderDto) {
-        const { operatorContract, orderNumber } = createOrderDto;
-        const existingOperatorContract = await this.orderRepository.findOne({
-            where: { operatorContract },
-        });
-        if (existingOperatorContract) {
-            throw new common_1.ConflictException(`Entrada duplicada para el contrato de operator: ${operatorContract}`);
-        }
-        const existingOrderNumber = await this.orderRepository.findOne({
-            where: { orderNumber },
-        });
-        if (existingOrderNumber) {
-            throw new common_1.ConflictException(`Entrada duplicada para el número de orden: ${orderNumber}`);
-        }
-        const order = this.orderRepository.create(createOrderDto);
-        try {
-            const savedOrder = await this.orderRepository.save(order);
-            const findOperator = await this.operatorRepository.findOne({
-                where: { id: createOrderDto.operator.id },
-            });
-            const sendWhatsappObject = {
-                userPhone: createOrderDto.userPhone,
-                patientName: createOrderDto.patientName,
-                phoneOperator: findOperator.whatsapp,
-                websiteOperator: findOperator.website,
-                nameOperator: findOperator.name,
-            };
-            if (createOrderDto.sendWhatsApp) {
-                const wablas = this.wablasService.sendWhatsapp(sendWhatsappObject);
-                return { order: savedOrder, wablas: wablas };
-            }
-            return { order: savedOrder };
-        }
-        catch (error) {
-            throw new common_1.InternalServerErrorException('Ocurrió un error inesperado');
-        }
     }
     async checkIfExists(orderNumber, operatorContract) {
         const conditions = {};
@@ -411,6 +308,7 @@ exports.OrderService = OrderService = __decorate([
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
-        wablas_service_1.WablasService])
+        wablas_service_1.WablasService,
+        notification_service_1.NotificationService])
 ], OrderService);
 //# sourceMappingURL=order.service.js.map

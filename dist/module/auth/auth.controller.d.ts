@@ -13,8 +13,10 @@ export declare class AuthController {
             whatsapp: string;
             image: string;
             role: import("../user/entities/user.entity").UserRole;
+            isVisible: boolean;
             createdAt: Date;
             operator: import("../operator/entities/operator.entity").OperatorEntity;
+            devices: import("../device/entities/device.entity").DeviceEntity[];
             wabla: import("../wablas/entities/wabla.entity").WablaEntity;
         };
         token: string;
@@ -29,8 +31,10 @@ export declare class AuthController {
             whatsapp: string;
             image: string;
             role: import("../user/entities/user.entity").UserRole;
+            isVisible: boolean;
             createdAt: Date;
             operator: import("../operator/entities/operator.entity").OperatorEntity;
+            devices: import("../device/entities/device.entity").DeviceEntity[];
             wabla: import("../wablas/entities/wabla.entity").WablaEntity;
         };
         sendMail: {
@@ -47,8 +51,10 @@ export declare class AuthController {
             whatsapp: string;
             image: string;
             role: import("../user/entities/user.entity").UserRole;
+            isVisible: boolean;
             createdAt: Date;
             operator: import("../operator/entities/operator.entity").OperatorEntity;
+            devices: import("../device/entities/device.entity").DeviceEntity[];
             wabla: import("../wablas/entities/wabla.entity").WablaEntity;
         };
         sendMail?: undefined;
@@ -61,8 +67,10 @@ export declare class AuthController {
         whatsapp: string;
         image: string;
         role: import("../user/entities/user.entity").UserRole;
+        isVisible: boolean;
         createdAt: Date;
         operator: import("../operator/entities/operator.entity").OperatorEntity;
+        devices: import("../device/entities/device.entity").DeviceEntity[];
         wabla: import("../wablas/entities/wabla.entity").WablaEntity;
     }>;
 }

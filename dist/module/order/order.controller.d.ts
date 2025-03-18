@@ -1,9 +1,11 @@
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { OrderSaveService } from './order-save.service';
 export declare class OrderController {
     private readonly orderService;
-    constructor(orderService: OrderService);
+    private readonly orderSaveService;
+    constructor(orderService: OrderService, orderSaveService: OrderSaveService);
     orderHistoryAll(): Promise<import("./entities/order-history.entity").OrderHistoryEntity[]>;
     expireOldOrders(): Promise<void>;
     approveOrder(file: Express.Multer.File, body: any): Promise<import("./entities/order.entity").OrderEntity>;
@@ -46,6 +48,7 @@ export declare class OrderController {
         id: number;
         orderNumber: string;
         patientName: string;
+        documentType: import("./entities/order.entity").DocumentType;
         idCard: string;
         userPhone: string;
         itinerary: string;
@@ -76,6 +79,7 @@ export declare class OrderController {
         id: number;
         orderNumber: string;
         patientName: string;
+        documentType: import("./entities/order.entity").DocumentType;
         idCard: string;
         userPhone: string;
         itinerary: string;
@@ -106,6 +110,7 @@ export declare class OrderController {
         id: number;
         orderNumber: string;
         patientName: string;
+        documentType: import("./entities/order.entity").DocumentType;
         idCard: string;
         userPhone: string;
         itinerary: string;
@@ -136,6 +141,7 @@ export declare class OrderController {
         id: number;
         orderNumber: string;
         patientName: string;
+        documentType: import("./entities/order.entity").DocumentType;
         idCard: string;
         userPhone: string;
         itinerary: string;
@@ -166,6 +172,7 @@ export declare class OrderController {
         id: number;
         orderNumber: string;
         patientName: string;
+        documentType: import("./entities/order.entity").DocumentType;
         idCard: string;
         userPhone: string;
         itinerary: string;

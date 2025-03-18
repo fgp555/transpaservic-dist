@@ -55,16 +55,7 @@ let UserSeederService = class UserSeederService {
                 sendMail: false,
                 image: 'https://i.postimg.cc/Zn1WqNzG/Transpa-Servic-Logo.webp',
                 operator: { id: 1 },
-            },
-            {
-                id: 'aa050617-c7ca-45f0-a64d-9192931a33e3',
-                firstName: 'User Collaborator',
-                email: 'collaborator@transpaservic.com.co',
-                password: hashedPassAdmin,
-                confirmPassword: hashedPassAdmin,
-                role: 'collaborator',
-                sendMail: false,
-                operator: null,
+                isVisible: false,
             },
         ];
         if (process.env.IS_DEVELOPER === 'true') {
@@ -77,15 +68,17 @@ let UserSeederService = class UserSeederService {
                 role: 'user',
                 sendMail: false,
                 operator: { id: 1 },
+                isVisible: true,
             }, {
                 id: 'aa050617-c7ca-45f0-a64d-9192931a33e5',
-                firstName: 'User admin 2',
+                firstName: 'Admin Tester',
                 email: 'tester@systered.co',
                 password: hashedPassTester,
                 confirmPassword: hashedPassTester,
                 role: 'admin',
                 sendMail: false,
                 operator: { id: 1 },
+                isVisible: true,
             });
         }
         for (const user of users) {

@@ -21,6 +21,8 @@ const schedule_1 = require("@nestjs/schedule");
 const user_module_1 = require("./module/user/user.module");
 const wablas_module_1 = require("./module/wablas/wablas.module");
 const setting_module_1 = require("./module/setting/setting.module");
+const device_module_1 = require("./module/device/device.module");
+const notification_module_1 = require("./module/notification/notification.module");
 const modules = [
     schedule_1.ScheduleModule.forRoot(),
     db_module_2.DbConfigModule,
@@ -33,6 +35,8 @@ const modules = [
     file_module_1.FileModule,
     setting_module_1.SettingModule,
     db_module_1.DbModule,
+    device_module_1.DeviceModule,
+    notification_module_1.NotificationModule,
 ];
 if (process.env.USE_SEEDER === 'true' && process.env.DROPSCHEMA === 'true') {
     const { SeederModule } = require('./seed/seeder.module');

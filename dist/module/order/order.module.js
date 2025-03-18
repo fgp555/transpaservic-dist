@@ -21,6 +21,10 @@ const back_ticket_entity_1 = require("./entities/back-ticket.entity");
 const order_history_entity_1 = require("./entities/order-history.entity");
 const setting_entity_1 = require("../setting/entities/setting.entity");
 const setting_service_1 = require("../setting/setting.service");
+const notification_service_1 = require("../notification/notification.service");
+const notification_entity_1 = require("../notification/entities/notification.entity");
+const device_entity_1 = require("../device/entities/device.entity");
+const order_save_service_1 = require("./order-save.service");
 let OrderModule = class OrderModule {
 };
 exports.OrderModule = OrderModule;
@@ -35,10 +39,19 @@ exports.OrderModule = OrderModule = __decorate([
                 back_ticket_entity_1.BackTicketEntity,
                 order_history_entity_1.OrderHistoryEntity,
                 setting_entity_1.SettingEntity,
+                notification_entity_1.NotificationEntity,
+                device_entity_1.DeviceEntity,
             ]),
         ],
         controllers: [order_controller_1.OrderController],
-        providers: [order_service_1.OrderService, order_seeder_1.OrderSeederService, wablas_service_1.WablasService, setting_service_1.SettingsService],
+        providers: [
+            order_service_1.OrderService,
+            order_save_service_1.OrderSaveService,
+            order_seeder_1.OrderSeederService,
+            wablas_service_1.WablasService,
+            setting_service_1.SettingsService,
+            notification_service_1.NotificationService,
+        ],
     })
 ], OrderModule);
 //# sourceMappingURL=order.module.js.map

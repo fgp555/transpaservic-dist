@@ -1,42 +1,26 @@
-import { Repository } from 'typeorm';
-import { OrderEntity, OrderStatus } from './entities/order.entity';
-import { OperatorEntity } from '../operator/entities/operator.entity';
-import { WablasService } from '../wablas/wablas.service';
-import { BackTicketEntity } from './entities/back-ticket.entity';
 import { OrderHistoryEntity } from './entities/order-history.entity';
+import { BackTicketEntity } from './entities/back-ticket.entity';
+import { Repository } from 'typeorm';
+import { NotificationService } from '../notification/notification.service';
+import { OperatorEntity } from '../operator/entities/operator.entity';
+import { OrderEntity, OrderStatus } from './entities/order.entity';
+import { WablasService } from '../wablas/wablas.service';
 export declare class OrderService {
     private readonly orderRepository;
     private readonly backTicketRepository;
     private readonly orderHistoryRepository;
     private readonly operatorRepository;
     private readonly wablasService;
-    constructor(orderRepository: Repository<OrderEntity>, backTicketRepository: Repository<BackTicketEntity>, orderHistoryRepository: Repository<OrderHistoryEntity>, operatorRepository: Repository<OperatorEntity>, wablasService: WablasService);
+    private readonly notificationService;
+    constructor(orderRepository: Repository<OrderEntity>, backTicketRepository: Repository<BackTicketEntity>, orderHistoryRepository: Repository<OrderHistoryEntity>, operatorRepository: Repository<OperatorEntity>, wablasService: WablasService, notificationService: NotificationService);
     orderHistoryAll(): Promise<OrderHistoryEntity[]>;
     expireOrders(): Promise<void>;
     approvalTravelDate(body: any): Promise<OrderEntity>;
     approveOrder(body: any, filename: string): Promise<OrderEntity>;
     deleteTicketImage(orderNumber: string): Promise<OrderEntity>;
-    saveArrayData(data: any[], sendToWhatsApp: boolean): Promise<any>;
     updateExpirationDates(): Promise<{
         message: string;
         updatedOrders: OrderEntity[];
-    }>;
-    create(createOrderDto: any): Promise<{
-        order: OrderEntity[];
-        wablas: Promise<{
-            apiResponse: any;
-            id: number;
-            deviceId: string;
-            deviceName: string;
-            whatsappNumber: string;
-            domain: string;
-            apiKeyToken: string;
-            secretKey: string;
-            user: import("../user/entities/user.entity").UserEntity;
-        }>;
-    } | {
-        order: OrderEntity[];
-        wablas?: undefined;
     }>;
     checkIfExists(orderNumber?: string, operatorContract?: string): Promise<{
         exists: boolean;
@@ -61,6 +45,7 @@ export declare class OrderService {
         id: number;
         orderNumber: string;
         patientName: string;
+        documentType: import("./entities/order.entity").DocumentType;
         idCard: string;
         userPhone: string;
         itinerary: string;
@@ -91,6 +76,7 @@ export declare class OrderService {
         id: number;
         orderNumber: string;
         patientName: string;
+        documentType: import("./entities/order.entity").DocumentType;
         idCard: string;
         userPhone: string;
         itinerary: string;
@@ -121,6 +107,7 @@ export declare class OrderService {
         id: number;
         orderNumber: string;
         patientName: string;
+        documentType: import("./entities/order.entity").DocumentType;
         idCard: string;
         userPhone: string;
         itinerary: string;
@@ -151,6 +138,7 @@ export declare class OrderService {
         id: number;
         orderNumber: string;
         patientName: string;
+        documentType: import("./entities/order.entity").DocumentType;
         idCard: string;
         userPhone: string;
         itinerary: string;
@@ -181,6 +169,7 @@ export declare class OrderService {
         id: number;
         orderNumber: string;
         patientName: string;
+        documentType: import("./entities/order.entity").DocumentType;
         idCard: string;
         userPhone: string;
         itinerary: string;

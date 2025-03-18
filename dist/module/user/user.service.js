@@ -41,6 +41,7 @@ let UserService = class UserService {
         try {
             const query = this.userRepository.createQueryBuilder('user');
             query.leftJoinAndSelect('user.operator', 'operator');
+            query.andWhere('user.isVisible = :isVisible', { isVisible: true });
             if (operator) {
                 query.andWhere('operator.id = :operator', { operator });
             }
@@ -50,13 +51,13 @@ let UserService = class UserService {
             query.andWhere('user.role != :superadmin', { superadmin: 'superadmin' });
             if (search) {
                 query.andWhere(`(
-            user.firstName LIKE :search OR
-            user.lastName LIKE :search OR
-            user.email LIKE :search OR
-            user.whatsapp LIKE :search OR
-            CAST(user.id AS CHAR) LIKE :search OR
-            operator.name LIKE :search
-          )`, { search: `%${search}%` });
+          user.firstName LIKE :search OR
+          user.lastName LIKE :search OR
+          user.email LIKE :search OR
+          user.whatsapp LIKE :search OR
+          CAST(user.id AS CHAR) LIKE :search OR
+          operator.name LIKE :search
+        )`, { search: `%${search}%` });
             }
             query.orderBy('user.createdAt', 'DESC');
             const skip = (page - 1) * limit;
@@ -96,7 +97,7 @@ let UserService = class UserService {
         }
         const user = await this.userRepository.findOne({
             where: { id: id },
-            relations: ['operator', 'wabla'],
+            relations: ['operator', 'devices'],
         });
         if (!user) {
             throw new common_1.NotFoundException(`Usuario con ID ${id} no encontrado`);

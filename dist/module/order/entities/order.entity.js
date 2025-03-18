@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OrderEntity = exports.OrderStatus = void 0;
+exports.OrderEntity = exports.DocumentType = exports.OrderStatus = void 0;
 const operator_entity_1 = require("../../operator/entities/operator.entity");
 const typeorm_1 = require("typeorm");
 const back_ticket_entity_1 = require("./back-ticket.entity");
@@ -21,6 +21,20 @@ var OrderStatus;
     OrderStatus["CANCELADO"] = "cancelado";
     OrderStatus["EXPIRADO"] = "expirado";
 })(OrderStatus || (exports.OrderStatus = OrderStatus = {}));
+var DocumentType;
+(function (DocumentType) {
+    DocumentType["CC"] = "CC";
+    DocumentType["CE"] = "CE";
+    DocumentType["CV"] = "CV";
+    DocumentType["NIT"] = "NIT";
+    DocumentType["PSP"] = "PSP";
+    DocumentType["PEP"] = "PEP";
+    DocumentType["PEPFF"] = "PEPFF";
+    DocumentType["PPT"] = "PPT";
+    DocumentType["TI"] = "TI";
+    DocumentType["OP"] = "OP";
+    DocumentType["NV"] = "NV";
+})(DocumentType || (exports.DocumentType = DocumentType = {}));
 let OrderEntity = class OrderEntity {
     setExpirationDate() {
         if (this.creationDate) {
@@ -47,6 +61,15 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], OrderEntity.prototype, "patientName", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: DocumentType,
+        nullable: true,
+        default: DocumentType.CC,
+    }),
+    __metadata("design:type", String)
+], OrderEntity.prototype, "documentType", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -155,7 +178,9 @@ __decorate([
     __metadata("design:type", String)
 ], OrderEntity.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => order_history_entity_1.OrderHistoryEntity, (history) => history.order, { cascade: true }),
+    (0, typeorm_1.OneToMany)(() => order_history_entity_1.OrderHistoryEntity, (history) => history.order, {
+        cascade: true,
+    }),
     __metadata("design:type", Array)
 ], OrderEntity.prototype, "orderHistory", void 0);
 exports.OrderEntity = OrderEntity = __decorate([

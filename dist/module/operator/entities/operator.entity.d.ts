@@ -1,3 +1,4 @@
+import { NotificationEntity } from 'src/module/notification/entities/notification.entity';
 import { OrderEntity } from 'src/module/order/entities/order.entity';
 import { UserEntity } from 'src/module/user/entities/user.entity';
 export declare class OperatorEntity {
@@ -10,4 +11,5 @@ export declare class OperatorEntity {
     registrationDate: Date;
     orders: OrderEntity;
     users: UserEntity;
+    notifications: NotificationEntity[];
 }

@@ -1,3 +1,4 @@
+import { DeviceEntity } from 'src/module/device/entities/device.entity';
 import { OperatorEntity } from 'src/module/operator/entities/operator.entity';
 import { WablaEntity } from 'src/module/wablas/entities/wabla.entity';
 export declare enum UserRole {
@@ -17,7 +18,9 @@ export declare class UserEntity {
     password: string;
     image: string;
     role: UserRole;
+    isVisible: boolean;
     createdAt: Date;
     operator: OperatorEntity;
+    devices: DeviceEntity[];
     wabla: WablaEntity;
 }

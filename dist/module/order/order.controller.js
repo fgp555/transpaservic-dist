@@ -27,9 +27,11 @@ const path = require("path");
 const uploadPath_1 = require("../file/utils/uploadPath");
 const multer_1 = require("multer");
 const fileName_1 = require("../file/utils/fileName");
+const order_save_service_1 = require("./order-save.service");
 let OrderController = class OrderController {
-    constructor(orderService) {
+    constructor(orderService, orderSaveService) {
         this.orderService = orderService;
+        this.orderSaveService = orderSaveService;
     }
     async orderHistoryAll() {
         return this.orderService.orderHistoryAll();
@@ -52,7 +54,7 @@ let OrderController = class OrderController {
         if (!Array.isArray(data) || data.length === 0) {
             throw new common_1.HttpException('El dato proporcionado debe ser un array no vacío', common_1.HttpStatus.BAD_REQUEST);
         }
-        return this.orderService.saveArrayData(data, sendToWhatsApp);
+        return this.orderSaveService.saveArrayData(data, sendToWhatsApp);
     }
     async checkAndUpdateExpirationDates() {
         return this.orderService.updateExpirationDates();
@@ -64,7 +66,7 @@ let OrderController = class OrderController {
         return this.orderService.checkIfExists(orderNumber, operatorContract);
     }
     create(createOrderDto) {
-        return this.orderService.create(createOrderDto);
+        return this.orderSaveService.create(createOrderDto);
     }
     findAll(status, operator, page, limit, search, dateFrom, dateTo) {
         return this.orderService.findAll({
@@ -262,6 +264,7 @@ exports.OrderController = OrderController = __decorate([
     (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin, roles_enum_1.RolesEnum.SuperAdmin, roles_enum_1.RolesEnum.Collaborator),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Controller)('order'),
-    __metadata("design:paramtypes", [order_service_1.OrderService])
+    __metadata("design:paramtypes", [order_service_1.OrderService,
+        order_save_service_1.OrderSaveService])
 ], OrderController);
 //# sourceMappingURL=order.controller.js.map

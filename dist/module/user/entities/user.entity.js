@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserEntity = exports.UserRole = void 0;
+const device_entity_1 = require("../../device/entities/device.entity");
 const operator_entity_1 = require("../../operator/entities/operator.entity");
 const wabla_entity_1 = require("../../wablas/entities/wabla.entity");
 const typeorm_1 = require("typeorm");
@@ -62,6 +63,10 @@ __decorate([
     __metadata("design:type", String)
 ], UserEntity.prototype, "role", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ default: true }),
+    __metadata("design:type", Boolean)
+], UserEntity.prototype, "isVisible", void 0);
+__decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], UserEntity.prototype, "createdAt", void 0);
@@ -69,6 +74,10 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => operator_entity_1.OperatorEntity, (t) => t.users, {}),
     __metadata("design:type", operator_entity_1.OperatorEntity)
 ], UserEntity.prototype, "operator", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => device_entity_1.DeviceEntity, (device) => device.user),
+    __metadata("design:type", Array)
+], UserEntity.prototype, "devices", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => wabla_entity_1.WablaEntity, (w) => w.user, {}),
     __metadata("design:type", wabla_entity_1.WablaEntity)
