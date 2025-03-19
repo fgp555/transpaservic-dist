@@ -23,6 +23,7 @@ const wablas_module_1 = require("./module/wablas/wablas.module");
 const setting_module_1 = require("./module/setting/setting.module");
 const device_module_1 = require("./module/device/device.module");
 const notification_module_1 = require("./module/notification/notification.module");
+const websocket_module_1 = require("./module/websocket/websocket.module");
 const modules = [
     schedule_1.ScheduleModule.forRoot(),
     db_module_2.DbConfigModule,
@@ -37,6 +38,7 @@ const modules = [
     db_module_1.DbModule,
     device_module_1.DeviceModule,
     notification_module_1.NotificationModule,
+    websocket_module_1.WSModule
 ];
 if (process.env.USE_SEEDER === 'true' && process.env.DROPSCHEMA === 'true') {
     const { SeederModule } = require('./seed/seeder.module');

@@ -20,7 +20,7 @@ let SettingSeed = class SettingSeed {
         const dataSeed = [
             {
                 key: 'whatsapp_message_template',
-                value: '*Estimado Usuario {{firstName}}*%0A%0ANos complace informarle que sus tiquetes de viaje han sido emitidos.%0A%0APara mayor información, puede comunicarse con el operador a través de los siguientes canales:%0A%0APBX: {{phoneOperator}}%0ATaquillas en la terminal de operador _{{nameOperator}}_%0ASitio web: {{websiteOperator}}%0A%0A¡Le deseamos un excelente viaje!%0A%0A{{newDate}}',
+                value: '*Estimado Usuario {{firstName}}*%0A%0ANos complace informarle que sus tiquetes de viaje han sido emitidos.%0A%0APara mayor información, puede comunicarse con el operador a través de los siguientes canales:%0A%0APBX: {{phoneOperator}}%0ATaquillas en la terminal de operador _{{nameOperator}}_%0ASitio web: {{websiteOperator}}%0A%0A¡Le deseamos un excelente viaje!%0A%0ADigite *si* para confirmar recibido.%0A%0A{{newDate}}',
             },
         ];
         for (const data of dataSeed) {

@@ -15,6 +15,7 @@ const notification_entity_1 = require("./entities/notification.entity");
 const order_entity_1 = require("../order/entities/order.entity");
 const operator_entity_1 = require("../operator/entities/operator.entity");
 const device_entity_1 = require("../device/entities/device.entity");
+const websocket_gateway_1 = require("../websocket/websocket.gateway");
 let NotificationModule = class NotificationModule {
 };
 exports.NotificationModule = NotificationModule;
@@ -29,7 +30,7 @@ exports.NotificationModule = NotificationModule = __decorate([
             ]),
         ],
         controllers: [notification_controller_1.NotificationController],
-        providers: [notification_service_1.NotificationService],
+        providers: [notification_service_1.NotificationService, websocket_gateway_1.WSGateway],
     })
 ], NotificationModule);
 //# sourceMappingURL=notification.module.js.map

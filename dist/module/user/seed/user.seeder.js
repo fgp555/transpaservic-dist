@@ -33,6 +33,7 @@ let UserSeederService = class UserSeederService {
                 role: 'admin',
                 sendMail: false,
                 image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
+                operator: { id: 2 },
             },
             {
                 id: 'f7b4a3c9-4e1f-4b6d-8a9a-8a0c8c0c8c0c',
@@ -77,8 +78,18 @@ let UserSeederService = class UserSeederService {
                 confirmPassword: hashedPassTester,
                 role: 'admin',
                 sendMail: false,
-                operator: { id: 1 },
+                operator: { id: 2 },
                 isVisible: true,
+            }, {
+                id: '3385ac2a-79f3-4f80-99b0-ca99f153619c',
+                firstName: 'Transpaservic',
+                email: 'admin@transpaservic.com.com',
+                password: hashedPassAdmin,
+                confirmPassword: hashedPassAdmin,
+                role: 'admin',
+                sendMail: false,
+                image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
+                operator: { id: 1 },
             });
         }
         for (const user of users) {

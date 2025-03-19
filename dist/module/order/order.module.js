@@ -25,6 +25,7 @@ const notification_service_1 = require("../notification/notification.service");
 const notification_entity_1 = require("../notification/entities/notification.entity");
 const device_entity_1 = require("../device/entities/device.entity");
 const order_save_service_1 = require("./order-save.service");
+const websocket_gateway_1 = require("../websocket/websocket.gateway");
 let OrderModule = class OrderModule {
 };
 exports.OrderModule = OrderModule;
@@ -51,6 +52,7 @@ exports.OrderModule = OrderModule = __decorate([
             wablas_service_1.WablasService,
             setting_service_1.SettingsService,
             notification_service_1.NotificationService,
+            websocket_gateway_1.WSGateway,
         ],
     })
 ], OrderModule);

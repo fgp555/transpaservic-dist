@@ -21,30 +21,33 @@ let DeviceService = class DeviceService {
     constructor(deviceRepository) {
         this.deviceRepository = deviceRepository;
     }
-    async create(createDeviceDto) {
-        const { expoPushToken } = createDeviceDto;
+    async register(createDeviceDto) {
+        const { expoPushToken, user } = createDeviceDto;
         if (!expoPushToken) {
             throw new common_1.BadRequestException('expoPushToken is required');
         }
-        const existingDevice = await this.deviceRepository.findOne({
-            where: { expoPushToken },
-        });
-        if (existingDevice) {
-            throw new common_1.BadRequestException('expoPushToken already exists');
+        try {
+            const existingDevice = await this.deviceRepository.findOne({
+                where: { expoPushToken },
+                relations: ['user'],
+            });
+            if (existingDevice) {
+                if (existingDevice.user.id !== user.id) {
+                    existingDevice.user = user;
+                    await this.deviceRepository.save(existingDevice);
+                    return existingDevice;
+                }
+                return existingDevice;
+            }
+            return await this.deviceRepository.save(createDeviceDto);
         }
-        return this.deviceRepository.save(createDeviceDto);
+        catch (error) {
+            console.error('❌ Error en register():', error);
+            throw new common_1.InternalServerErrorException('Error al registrar el dispositivo');
+        }
     }
     async findAll() {
         return await this.deviceRepository.find();
-    }
-    findOne(id) {
-        return `This action returns a #${id} device`;
-    }
-    update(id, updateDeviceDto) {
-        return `This action updates a #${id} device`;
-    }
-    remove(id) {
-        return `This action removes a #${id} device`;
     }
 };
 exports.DeviceService = DeviceService;
