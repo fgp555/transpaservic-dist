@@ -24,6 +24,8 @@ export declare class AuthService {
             wabla: import("../wablas/entities/wabla.entity").WablaEntity;
         };
         token: string;
+        loginDate: string;
+        expirationDate: string;
     }>;
     signup(body: any, filePath?: string): Promise<{
         message: string;

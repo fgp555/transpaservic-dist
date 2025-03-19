@@ -20,6 +20,8 @@ export declare class AuthController {
             wabla: import("../wablas/entities/wabla.entity").WablaEntity;
         };
         token: string;
+        loginDate: string;
+        expirationDate: string;
     }>;
     signup(body: any, file?: Express.Multer.File): Promise<{
         message: string;

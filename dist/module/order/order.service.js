@@ -78,6 +78,7 @@ let OrderService = class OrderService {
         order.approvalDate = new Date();
         order.status = order_entity_1.OrderStatus.APROBADO;
         order.ticketImage = filename;
+        order.dimensionImg = body.dimensionImg;
         const orderHistoryCreate = this.orderHistoryRepository.create({
             order,
             modifiedByUser: { id: body.userId },
@@ -200,14 +201,16 @@ let OrderService = class OrderService {
         const order = await this.orderRepository.findOne({
             where: { id },
             relations: ['operator', 'backticketHistory', 'orderHistory'],
+            order: {
+                orderHistory: {
+                    modifiedAt: 'DESC',
+                },
+            },
         });
         if (!order) {
             throw new common_1.NotFoundException(`Order con ID ${id} no encontrado`);
         }
-        return {
-            ...order,
-            operator: order.operator?.name || null,
-        };
+        return { ...order, operator: order.operator?.name || null };
     }
     async findManyByPhone(userPhone) {
         const orders = await this.orderRepository.find({
@@ -227,6 +230,9 @@ let OrderService = class OrderService {
             order: {
                 backticketHistory: {
                     createdAt: 'DESC',
+                },
+                orderHistory: {
+                    modifiedAt: 'ASC',
                 },
             },
         });

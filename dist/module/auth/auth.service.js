@@ -46,7 +46,10 @@ let AuthService = class AuthService {
             roles: userRoles,
         };
         const token = this.jwtService.sign(userPayload);
-        return { login: true, user, token };
+        const decoded = this.jwtService.decode(token);
+        const loginDate = new Date().toLocaleString();
+        const expirationDate = new Date(decoded.exp * 1000).toLocaleString();
+        return { login: true, user, token, loginDate, expirationDate };
     }
     async signup(body, filePath) {
         const isString = typeof body.sendMail === 'string';

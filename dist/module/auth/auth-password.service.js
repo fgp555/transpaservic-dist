@@ -31,7 +31,10 @@ let AuthPasswordService = class AuthPasswordService {
     }
     decodeToken(token) {
         try {
-            return this.jwtService.decode(token);
+            const decoded = this.jwtService.decode(token);
+            const expirationDate = new Date(decoded.exp * 1000).toLocaleString();
+            const currentDate = new Date().toLocaleString();
+            return { ...decoded, expirationDate, currentDate };
         }
         catch (error) {
             throw new common_1.UnauthorizedException('Token inválido');

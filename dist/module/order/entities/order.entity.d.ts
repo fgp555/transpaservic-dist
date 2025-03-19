@@ -48,6 +48,7 @@ export declare class OrderEntity {
     remarks: string;
     status: OrderStatus;
     ticketImage: string;
+    dimensionImg: string;
     backticketHistory: BackTicketEntity[];
     email: string;
     orderHistory: OrderHistoryEntity[];

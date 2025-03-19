@@ -70,6 +70,7 @@ export declare class OrderController {
         remarks: string;
         status: import("./entities/order.entity").OrderStatus;
         ticketImage: string;
+        dimensionImg: string;
         backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
         email: string;
         orderHistory: import("./entities/order-history.entity").OrderHistoryEntity[];
@@ -101,6 +102,7 @@ export declare class OrderController {
         remarks: string;
         status: import("./entities/order.entity").OrderStatus;
         ticketImage: string;
+        dimensionImg: string;
         backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
         email: string;
         orderHistory: import("./entities/order-history.entity").OrderHistoryEntity[];
@@ -132,6 +134,7 @@ export declare class OrderController {
         remarks: string;
         status: import("./entities/order.entity").OrderStatus;
         ticketImage: string;
+        dimensionImg: string;
         backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
         email: string;
         orderHistory: import("./entities/order-history.entity").OrderHistoryEntity[];
@@ -163,6 +166,7 @@ export declare class OrderController {
         remarks: string;
         status: import("./entities/order.entity").OrderStatus;
         ticketImage: string;
+        dimensionImg: string;
         backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
         email: string;
         orderHistory: import("./entities/order-history.entity").OrderHistoryEntity[];
@@ -194,6 +198,7 @@ export declare class OrderController {
         remarks: string;
         status: import("./entities/order.entity").OrderStatus;
         ticketImage: string;
+        dimensionImg: string;
         backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
         email: string;
         orderHistory: import("./entities/order-history.entity").OrderHistoryEntity[];

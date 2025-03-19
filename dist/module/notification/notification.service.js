@@ -22,8 +22,10 @@ const expo_server_sdk_1 = require("expo-server-sdk");
 const order_entity_1 = require("../order/entities/order.entity");
 const operator_entity_1 = require("../operator/entities/operator.entity");
 const device_entity_1 = require("../device/entities/device.entity");
+const websocket_gateway_1 = require("../websocket/websocket.gateway");
 let NotificationService = NotificationService_1 = class NotificationService {
-    constructor(notificationRepository, orderRepository, operatorRepository, deviceRepository) {
+    constructor(wsGateway, notificationRepository, orderRepository, operatorRepository, deviceRepository) {
+        this.wsGateway = wsGateway;
         this.notificationRepository = notificationRepository;
         this.orderRepository = orderRepository;
         this.operatorRepository = operatorRepository;
@@ -80,6 +82,7 @@ let NotificationService = NotificationService_1 = class NotificationService {
             });
             const operatorName = findOperator ? findOperator.name : 'Operador';
             const message = `${operatorName} tienes ${orderCount} órdenes pendientes.`;
+            this.wsGateway.sendNotificationGateway(operatorId.toString(), message);
             const devices = await this.deviceRepository
                 .createQueryBuilder('device')
                 .innerJoinAndSelect('device.user', 'user')
@@ -116,11 +119,12 @@ let NotificationService = NotificationService_1 = class NotificationService {
 exports.NotificationService = NotificationService;
 exports.NotificationService = NotificationService = NotificationService_1 = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(notification_entity_1.NotificationEntity)),
-    __param(1, (0, typeorm_1.InjectRepository)(order_entity_1.OrderEntity)),
-    __param(2, (0, typeorm_1.InjectRepository)(operator_entity_1.OperatorEntity)),
-    __param(3, (0, typeorm_1.InjectRepository)(device_entity_1.DeviceEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository,
+    __param(1, (0, typeorm_1.InjectRepository)(notification_entity_1.NotificationEntity)),
+    __param(2, (0, typeorm_1.InjectRepository)(order_entity_1.OrderEntity)),
+    __param(3, (0, typeorm_1.InjectRepository)(operator_entity_1.OperatorEntity)),
+    __param(4, (0, typeorm_1.InjectRepository)(device_entity_1.DeviceEntity)),
+    __metadata("design:paramtypes", [websocket_gateway_1.WSGateway,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository])

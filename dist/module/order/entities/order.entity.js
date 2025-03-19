@@ -170,6 +170,10 @@ __decorate([
     __metadata("design:type", String)
 ], OrderEntity.prototype, "ticketImage", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], OrderEntity.prototype, "dimensionImg", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => back_ticket_entity_1.BackTicketEntity, (backTicket) => backTicket.order),
     __metadata("design:type", Array)
 ], OrderEntity.prototype, "backticketHistory", void 0);

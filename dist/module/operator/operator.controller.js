@@ -47,6 +47,7 @@ let OperatorController = class OperatorController {
     }
     findByName(name) {
         if (!name) {
+            console.log("No se proporcionó un nombre de operador");
             return this.operatorService.findAllService();
         }
         return this.operatorService.findByName(name);

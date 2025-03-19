@@ -67,6 +67,7 @@ export declare class OrderService {
         remarks: string;
         status: OrderStatus;
         ticketImage: string;
+        dimensionImg: string;
         backticketHistory: BackTicketEntity[];
         email: string;
         orderHistory: OrderHistoryEntity[];
@@ -98,6 +99,7 @@ export declare class OrderService {
         remarks: string;
         status: OrderStatus;
         ticketImage: string;
+        dimensionImg: string;
         backticketHistory: BackTicketEntity[];
         email: string;
         orderHistory: OrderHistoryEntity[];
@@ -129,6 +131,7 @@ export declare class OrderService {
         remarks: string;
         status: OrderStatus;
         ticketImage: string;
+        dimensionImg: string;
         backticketHistory: BackTicketEntity[];
         email: string;
         orderHistory: OrderHistoryEntity[];
@@ -160,6 +163,7 @@ export declare class OrderService {
         remarks: string;
         status: OrderStatus;
         ticketImage: string;
+        dimensionImg: string;
         backticketHistory: BackTicketEntity[];
         email: string;
         orderHistory: OrderHistoryEntity[];
@@ -191,6 +195,7 @@ export declare class OrderService {
         remarks: string;
         status: OrderStatus;
         ticketImage: string;
+        dimensionImg: string;
         backticketHistory: BackTicketEntity[];
         email: string;
         orderHistory: OrderHistoryEntity[];

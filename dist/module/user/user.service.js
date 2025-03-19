@@ -88,6 +88,7 @@ let UserService = class UserService {
             .createQueryBuilder('user')
             .addSelect('user.password')
             .leftJoinAndSelect('user.operator', 'operator')
+            .leftJoinAndSelect('user.devices', 'devices')
             .where('user.email = :email', { email: email })
             .getOne();
     }

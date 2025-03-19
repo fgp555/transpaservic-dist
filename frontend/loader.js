@@ -15,13 +15,13 @@ document.addEventListener("DOMContentLoaded", function () {
 .loader {
   position: fixed;
   inset: 0;
-  z-index: 9;
+  z-index: 19;
 }
 
 .loader > .img {
   position: fixed;
   inset: 0;
-  z-index: 9;
+  z-index: 19;
   background-image: url(${loaderImg});
   background-position: center;
   background-repeat: no-repeat;
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
   inset: 0;
   background-color: #fffe;
   position: fixed;
-  z-index: 0;
+  z-index: 19;
 }
 
 @keyframes opacity {

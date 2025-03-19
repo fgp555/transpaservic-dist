@@ -45,7 +45,11 @@ let OperatorService = class OperatorService {
         return await this.operatorRepository.save(operator);
     }
     async findAllService() {
-        return await this.operatorRepository.find();
+        return await this.operatorRepository.find({
+            order: {
+                name: 'ASC',
+            },
+        });
     }
     async findAll(filters) {
         const { search, page = 1, limit = 10 } = filters;
@@ -63,7 +67,7 @@ let OperatorService = class OperatorService {
         if (limit) {
             queryBuilder.skip((page - 1) * limit).take(limit);
         }
-        queryBuilder.orderBy('operator.registrationDate', 'DESC');
+        queryBuilder.orderBy('operator.name', 'ASC');
         const [results, total] = await queryBuilder.getManyAndCount();
         return {
             results,
@@ -75,6 +79,9 @@ let OperatorService = class OperatorService {
         return await this.operatorRepository.find({
             where: {
                 name: (0, typeorm_2.Like)(`${name}%`),
+            },
+            order: {
+                name: 'ASC',
             },
         });
     }
