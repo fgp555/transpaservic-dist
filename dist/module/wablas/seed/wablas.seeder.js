@@ -17,7 +17,7 @@ let WablasSeeder = class WablasSeeder {
         this.wablasService = wablasService;
     }
     async seed() {
-        console.log('process.env.WABLAS_TOKEN', process.env.WABLAS_TOKEN);
+        console.info('process.env.WABLAS_TOKEN', process.env.WABLAS_TOKEN);
         const data = {
             deviceId: '8542Q5',
             deviceName: 'TRANSPASERVIC',
@@ -27,7 +27,7 @@ let WablasSeeder = class WablasSeeder {
             secretKey: 'LMhRywB3',
         };
         await this.wablasService.create(data);
-        console.log('Wablas seed created');
+        console.info('Wablas seed created');
     }
 };
 exports.WablasSeeder = WablasSeeder;

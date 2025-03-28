@@ -207,10 +207,10 @@ let OperatorSeederService = class OperatorSeederService {
             if (!existingOperator) {
                 const newOperator = this.operatorRepository.create(operatorData);
                 await this.operatorRepository.save(newOperator);
-                console.log(`Seeded operator: ${operatorData.name}`);
+                console.info(`Seeded operator: ${operatorData.name}`);
             }
             else {
-                console.log(`Operator already exists: ${operatorData.name}`);
+                console.info(`Operator already exists: ${operatorData.name}`);
             }
         }
     }

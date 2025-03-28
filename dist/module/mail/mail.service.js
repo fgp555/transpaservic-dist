@@ -14,7 +14,7 @@ const common_1 = require("@nestjs/common");
 const nodemailer = require("nodemailer");
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)({ path: '.env' });
-console.log('MailService-MAIL_HOST', process.env.MAIL_HOST);
+console.info('MailService-MAIL_HOST', process.env.MAIL_HOST);
 let MailService = class MailService {
     constructor() {
         this.transporter = nodemailer.createTransport({
@@ -36,7 +36,7 @@ let MailService = class MailService {
         const mailOptions = { from, to, subject, text, html };
         try {
             const info = await this.transporter.sendMail(mailOptions);
-            console.log('Email sent: ' + info.response);
+            console.info('Email sent: ' + info.response);
             return info;
         }
         catch (error) {
@@ -52,7 +52,7 @@ let MailService = class MailService {
                 text,
                 html,
             });
-            console.log(`Email sent to ${to}`);
+            console.info(`Email sent to ${to}`);
         }
         catch (error) {
             console.error(`Failed to send email: ${error.message}`);

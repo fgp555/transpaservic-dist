@@ -19,8 +19,6 @@ const path = require("path");
 const fs = require("fs");
 let FileController = class FileController {
     uploadSingle(file, body) {
-        console.log('File:', file);
-        console.log('body:', body);
         return {
             message: 'File uploaded successfully',
             filename: file.filename,
@@ -46,11 +44,6 @@ let FileController = class FileController {
         const newFileName = `${uniqueSuffix}-${sanitizedFileName}`;
         const newFilePath = path.join(uploadDir, newFileName);
         fs.renameSync(profileImage.path, newFilePath);
-        console.log('newFilePath', {
-            name,
-            email,
-            profileImage: newFileName,
-        });
         return res.status(common_1.HttpStatus.CREATED).json({
             message: 'Usuario creado correctamente',
             user: {
@@ -61,7 +54,6 @@ let FileController = class FileController {
         });
     }
     uploadMultiple(files) {
-        console.log('Archivos recibidos:', files);
         if (!files || files.length === 0) {
             return { message: 'No se recibieron archivos' };
         }

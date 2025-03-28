@@ -47,7 +47,7 @@ let OperatorController = class OperatorController {
     }
     findByName(name) {
         if (!name) {
-            console.log("No se proporcionó un nombre de operador");
+            console.info("No se proporcionó un nombre de operador");
             return this.operatorService.findAllService();
         }
         return this.operatorService.findByName(name);
@@ -56,7 +56,6 @@ let OperatorController = class OperatorController {
         return this.operatorService.findOne(+id);
     }
     async update(id, file, body) {
-        console.log('body', body);
         const filePath = file
             ? path.join((0, uploadPath_1.getUploadFolder)('operator'), file.filename)
             : null;

@@ -65,9 +65,9 @@ let UserService = class UserService {
             const [results, total] = await query.getManyAndCount();
             const totalPages = Math.ceil(total / limit);
             return {
-                results,
                 total,
                 totalPages,
+                results,
             };
         }
         catch (error) {

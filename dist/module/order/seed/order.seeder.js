@@ -21,7 +21,7 @@ const demoData = require("./orderData.json");
 let OrderSeederService = class OrderSeederService {
     constructor(orderRepository) {
         this.orderRepository = orderRepository;
-        console.log(' OrderSeederService Starting seed...');
+        console.info(' OrderSeederService Starting seed...');
     }
     async seed() {
         for (const data of demoData) {
@@ -42,13 +42,13 @@ let OrderSeederService = class OrderSeederService {
             });
             if (!exists) {
                 await this.orderRepository.save(order);
-                console.log(`Order creado con operatorContract: ${data.operatorContract}`);
+                console.info(`Order creado con operatorContract: ${data.operatorContract}`);
             }
             else {
-                console.log(`Order ya existe con operatorContract: ${data.operatorContract}`);
+                console.info(`Order ya existe con operatorContract: ${data.operatorContract}`);
             }
         }
-        console.log('OrderSeederService ejecutado correctamente');
+        console.info('OrderSeederService ejecutado correctamente');
     }
 };
 exports.OrderSeederService = OrderSeederService;

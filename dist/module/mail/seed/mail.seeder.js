@@ -18,7 +18,7 @@ let MailSeederService = class MailSeederService {
     }
     async onModuleInit() { }
     async seed() {
-        console.log('Running mail seeder...');
+        console.info('Running mail seeder...');
         const templates = [
             {
                 templateName: 'Registro de Usuario',

@@ -119,7 +119,7 @@ let AuthPasswordService = class AuthPasswordService {
             };
         }
         catch (error) {
-            console.log('Error en forgotPassword: ', error);
+            console.error('Error en forgotPassword: ', error);
             throw new common_1.BadRequestException(error.message);
         }
     }

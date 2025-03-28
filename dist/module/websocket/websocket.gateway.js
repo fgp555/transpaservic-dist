@@ -22,18 +22,18 @@ let WSGateway = class WSGateway {
             this.clients.set(operatorId, client.id);
             client.join(operatorId);
         }
-        console.log({ operatorId, message: 'connect' });
+        console.info({ operatorId, message: 'connect' });
     }
     handleDisconnect(client) {
         const operatorId = [...this.clients.entries()].find(([, socketId]) => socketId === client.id)?.[0];
         if (operatorId) {
             this.clients.delete(operatorId);
         }
-        console.log({ operatorId, message: 'disconnect' });
+        console.info({ operatorId, message: 'disconnect' });
     }
     sendNotificationGateway(operatorId, message) {
         this.server.to(operatorId).emit('orderNotification', message);
-        console.log({ operatorId, message });
+        console.info({ operatorId, message });
     }
 };
 exports.WSGateway = WSGateway;

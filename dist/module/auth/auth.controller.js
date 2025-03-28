@@ -33,7 +33,6 @@ let AuthController = class AuthController {
         return this.authService.signin(signinDto);
     }
     async signup(body, file) {
-        console.log('body', body);
         const filePath = file
             ? path.join((0, uploadPath_1.getUploadFolder)('user'), file.filename)
             : null;

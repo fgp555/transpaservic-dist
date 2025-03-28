@@ -40,8 +40,6 @@ let OrderController = class OrderController {
         await this.orderService.expireOrders();
     }
     approveOrder(file, body) {
-        console.log('body:', body);
-        console.log('file:', file);
         const filePath = path.join((0, uploadPath_1.getUploadFolder)('order'), file.filename);
         return this.orderService.approveOrder(body, filePath);
     }

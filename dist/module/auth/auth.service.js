@@ -98,13 +98,15 @@ let AuthService = class AuthService {
         if (!hasAccess) {
             throw new common_1.ForbiddenException('No tienes permisos para modificar este usuario');
         }
-        if (typeof body.operator === 'string') {
+        if (typeof body.operator === 'string')
             body.operator = JSON.parse(body.operator);
-        }
-        if (body.password) {
+        if (body.lastName === 'null')
+            body.lastName = null;
+        if (body.image === 'null')
+            body.image = null;
+        if (body.password)
             body.password = await bcrypt.hash(body.password, 10);
-        }
-        const { wabla, ...rest } = body;
+        const { wabla, devices, isVisible, ...rest } = body;
         const updateData = { ...rest };
         if (filePath) {
             updateData.image = filePath;

@@ -106,19 +106,19 @@ let DBInfoService = class DBInfoService {
     }
     async dropSynchronize() {
         await this.dataSource.dropDatabase();
-        console.log('Database schema dropped successfully');
+        console.info('Database schema dropped successfully');
         await this.dataSource.synchronize();
-        console.log('Database schema synchronized successfully');
+        console.info('Database schema synchronized successfully');
         return 'Database reset successfully';
     }
     async dropSchema() {
         await this.dataSource.dropDatabase();
-        console.log('Database schema dropped successfully');
+        console.info('Database schema dropped successfully');
         return 'dropDatabase successfully';
     }
     async synchronize() {
         await this.dataSource.synchronize();
-        console.log('Database schema synchronized successfully');
+        console.info('Database schema synchronized successfully');
         return 'synchronize successfully';
     }
     async runMigrations() {

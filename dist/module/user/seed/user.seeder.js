@@ -22,8 +22,19 @@ let UserSeederService = class UserSeederService {
         const hashedPassAdmin = await bcrypt.hash(ADMINPASS, 10);
         const hashedPassUser = await bcrypt.hash('copetran123456', 10);
         const hashedPassSuper = await bcrypt.hash(ADMINPASS + 'super', 10);
-        const hashedPassTester = await bcrypt.hash('P45sW0rD_Tester', 10);
         const users = [
+            {
+                id: '54695949-687c-45f5-b7df-4a08d810f0ee',
+                firstName: 'Super Admin',
+                email: 'desarrollotranspaservic@gmail.com',
+                password: hashedPassSuper,
+                confirmPassword: hashedPassSuper,
+                role: 'superadmin',
+                sendMail: false,
+                image: 'https://i.postimg.cc/Zn1WqNzG/Transpa-Servic-Logo.webp',
+                operator: { id: 1 },
+                isVisible: false,
+            },
             {
                 id: '3385ac2a-79f3-4f80-99b0-ca99f153619b',
                 firstName: 'Transpaservic',
@@ -46,63 +57,18 @@ let UserSeederService = class UserSeederService {
                 sendMail: false,
                 operator: { id: 1 },
             },
-            {
-                id: '54695949-687c-45f5-b7df-4a08d810f0ee',
-                firstName: 'Super Admin',
-                email: 'desarrollotranspaservic@gmail.com',
-                password: hashedPassSuper,
-                confirmPassword: hashedPassSuper,
-                role: 'superadmin',
-                sendMail: false,
-                image: 'https://i.postimg.cc/Zn1WqNzG/Transpa-Servic-Logo.webp',
-                operator: { id: 1 },
-                isVisible: false,
-            },
         ];
-        if (process.env.IS_DEVELOPER === 'true') {
-            users.push({
-                id: 'aa050617-c7ca-45f0-a64d-9192931a33e0',
-                firstName: 'User tester',
-                email: 'tester@systered.com',
-                password: hashedPassTester,
-                confirmPassword: hashedPassTester,
-                role: 'user',
-                sendMail: false,
-                operator: { id: 1 },
-                isVisible: true,
-            }, {
-                id: 'aa050617-c7ca-45f0-a64d-9192931a33e5',
-                firstName: 'Admin Tester',
-                email: 'tester@systered.co',
-                password: hashedPassTester,
-                confirmPassword: hashedPassTester,
-                role: 'admin',
-                sendMail: false,
-                operator: { id: 2 },
-                isVisible: true,
-            }, {
-                id: '3385ac2a-79f3-4f80-99b0-ca99f153619c',
-                firstName: 'Transpaservic',
-                email: 'admin@transpaservic.com.com',
-                password: hashedPassAdmin,
-                confirmPassword: hashedPassAdmin,
-                role: 'admin',
-                sendMail: false,
-                image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
-                operator: { id: 1 },
-            });
-        }
         for (const user of users) {
             try {
                 if (user.email) {
                     const existingUser = await this.userService.findByEmail(user.email);
                     if (existingUser) {
-                        console.log(`User with email ${user.email} already exists.`);
+                        console.info(`User with email ${user.email} already exists.`);
                         continue;
                     }
                 }
                 await this.userService.create(user);
-                console.log(`User ${user.firstName} created successfully.`);
+                console.info(`User ${user.firstName} created successfully.`);
             }
             catch (error) {
                 console.error(`Failed to create user ${user.firstName}: ${error.message}`);

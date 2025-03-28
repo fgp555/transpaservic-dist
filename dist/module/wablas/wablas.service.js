@@ -24,7 +24,6 @@ let WablasService = class WablasService {
         this.settingsService = settingsService;
     }
     async sendMessageWhatsapp(param) {
-        console.log('param', param);
         return param;
     }
     async sendWhatsapp(sendWhatsappObject) {
@@ -93,7 +92,7 @@ let WablasService = class WablasService {
                 throw new common_1.HttpException(`Error en la API remota: Código ${response.status} - ${response.statusText}. Detalles: ${errorText}`, common_1.HttpStatus.BAD_GATEWAY);
             }
             const data = await response.json();
-            console.log('Respuesta de la API remota:', data);
+            console.info('Respuesta de la API remota:', data);
             return { ...res, apiResponse: data };
         }
         catch (error) {
@@ -134,7 +133,7 @@ let WablasService = class WablasService {
                 throw new common_1.HttpException(`Error en la API remota: Código ${response.status} - ${response.statusText}. Detalles: ${errorText}`, common_1.HttpStatus.BAD_GATEWAY);
             }
             const data = await response.json();
-            console.log('Respuesta de la API remota:', data);
+            console.info('Respuesta de la API remota:', data);
             return { ...res, apiResponse: data };
         }
         catch (error) {

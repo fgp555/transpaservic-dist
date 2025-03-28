@@ -29,7 +29,7 @@ let SettingSeed = class SettingSeed {
                 await this.settingService.setSetting(data.key, data.value);
             }
         }
-        console.log('Setting seed created');
+        console.info('Setting seed created');
     }
 };
 exports.SettingSeed = SettingSeed;

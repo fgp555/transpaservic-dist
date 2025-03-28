@@ -11,7 +11,7 @@ console.info('DB_DATABASE: ', process.env.DB_DATABASE || 'defaultdb');
 const DB_PASSWORD = process.env.DB_TYPE === 'mysql'
     ? process.env.DB_PASSWORD || ''
     : process.env.DB_PASSWORD;
-console.log('DB_PASSWORD', DB_PASSWORD);
+console.info('DB_PASSWORD', DB_PASSWORD);
 const typeOrmConfig = {
     type: process.env.DB_TYPE || 'postgres',
     host: process.env.DB_HOST || 'localhost',

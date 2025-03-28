@@ -93,7 +93,7 @@ let DBBackupController = class DBBackupController {
         }
     }
     async weeklyBackup() {
-        console.log('Ejecutando respaldo de la base de datos...');
+        console.info('Ejecutando respaldo de la base de datos...');
         const dbType = process.env.DB_TYPE || 'postgres';
         try {
             let result;
@@ -107,7 +107,7 @@ let DBBackupController = class DBBackupController {
                 throw new Error('Unsupported database type');
             }
             const fileName = result.backupFile;
-            console.log(`Respaldo exitoso: ${fileName}`);
+            console.info(`Respaldo exitoso: ${fileName}`);
         }
         catch (error) {
             console.error('Error al hacer el respaldo:', error.message);
@@ -126,9 +126,9 @@ let DBBackupController = class DBBackupController {
                 filePath = path.join(this.backupsDir, `${baseName}(${counter})${fileExtension}`);
                 counter++;
             }
-            console.log('File will be saved to:', filePath);
+            console.info('File will be saved to:', filePath);
             fs.writeFileSync(filePath, file.buffer);
-            console.log('File saved successfully.');
+            console.info('File saved successfully.');
             return res.json({
                 message: 'File uploaded successfully',
                 file: filePath,

@@ -63,7 +63,6 @@ let NotificationService = NotificationService_1 = class NotificationService {
         return { success: true, tickets };
     }
     async sendOperatorOrderNotifications(operatorIds) {
-        console.log('operatorIds', operatorIds);
         const notifications = [];
         const pushNotifications = [];
         await Promise.all(operatorIds.map(async (operatorId) => {
@@ -74,7 +73,7 @@ let NotificationService = NotificationService_1 = class NotificationService {
                 },
             });
             if (orderCount === 0) {
-                console.log(`🔹 Operador ${operatorId} no tiene órdenes pendientes.`);
+                console.info(`🔹 Operador ${operatorId} no tiene órdenes pendientes.`);
                 return;
             }
             const findOperator = await this.operatorRepository.findOne({

@@ -9,7 +9,7 @@ const bodyParser = require("body-parser");
 const exception_filter_1 = require("./utils/filters/exception.filter");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
-    app.useGlobalPipes(new common_1.ValidationPipe());
+    app.useGlobalPipes(new common_1.ValidationPipe({}));
     app.useGlobalFilters(new exception_filter_1.GlobalExceptionFilter());
     app.setGlobalPrefix('api');
     app.use(morgan('dev'));

@@ -107,7 +107,7 @@ let DBBackupService = class DBBackupService {
             filesToDelete.forEach((file) => {
                 const filePath = path.join(backupDir, file);
                 fs.unlinkSync(filePath);
-                console.log(`Eliminado archivo de respaldo antiguo: ${file}`);
+                console.info(`Eliminado archivo de respaldo antiguo: ${file}`);
             });
         }
     }
