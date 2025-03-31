@@ -28,7 +28,7 @@ exports.AuthModule = AuthModule = __decorate([
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.UserEntity]),
             jwt_1.JwtModule.register({
                 global: true,
-                signOptions: { expiresIn: process.env.JWT_EXPIRES_IN || '2d' },
+                signOptions: { expiresIn: process.env.JWT_EXPIRES_IN || '7d' },
                 secret: process.env.JWT_SECRET,
             }),
             mail_module_1.MailModule,
