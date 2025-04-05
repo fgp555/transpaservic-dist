@@ -36,6 +36,9 @@ let UserService = class UserService {
             throw new common_1.InternalServerErrorException('Failed to create user', error.message);
         }
     }
+    async findAllSuper() {
+        return await this.userRepository.find();
+    }
     async findAll(filters) {
         const { operator, page, limit, search, role } = filters;
         try {

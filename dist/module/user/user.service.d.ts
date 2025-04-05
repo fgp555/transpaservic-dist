@@ -5,6 +5,7 @@ export declare class UserService {
     private readonly userRepository;
     constructor(userRepository: Repository<UserEntity>);
     create(createUserDto: CreateUserDto): Promise<UserEntity>;
+    findAllSuper(): Promise<UserEntity[]>;
     findAll(filters: {
         operator?: number;
         page: number;

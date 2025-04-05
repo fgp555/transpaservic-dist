@@ -114,7 +114,7 @@ __decorate([
     __metadata("design:type", Date)
 ], OrderEntity.prototype, "approvalTravelDate", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, unique: true }),
     __metadata("design:type", String)
 ], OrderEntity.prototype, "ticketNumber", void 0);
 __decorate([

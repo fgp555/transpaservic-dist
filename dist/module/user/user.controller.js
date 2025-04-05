@@ -30,6 +30,9 @@ let UserController = class UserController {
         }
         return await this.userService.create(createUserDto);
     }
+    async findAllSuper() {
+        return await this.userService.findAllSuper();
+    }
     async findAll(operator, page = 1, limit = 10, search = '', role) {
         return await this.userService.findAll({
             operator: operator ? Number(operator) : undefined,
@@ -69,6 +72,13 @@ __decorate([
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "create", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin, roles_enum_1.RolesEnum.SuperAdmin),
+    (0, common_1.Get)('findAllSuper'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "findAllSuper", null);
 __decorate([
     (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin, roles_enum_1.RolesEnum.SuperAdmin),
     (0, common_1.Get)('findAll'),

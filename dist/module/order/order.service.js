@@ -62,11 +62,17 @@ let OrderService = class OrderService {
         return await this.orderRepository.save(order);
     }
     async approveOrder(body, filename) {
+        const ticketNumberExist = await this.orderRepository.findOne({
+            where: { ticketNumber: body.ticketNumber },
+        });
+        if (ticketNumberExist) {
+            throw new common_1.ConflictException('El número de ticket ya existe');
+        }
         const order = await this.orderRepository.findOne({
             where: { orderNumber: body.orderNumber },
         });
         if (!order) {
-            throw new common_1.NotFoundException('Order not found');
+            throw new common_1.NotFoundException('Orden no encontrada');
         }
         order.ticketNumber = body.ticketNumber;
         order.approvalTravelDate = body.approvalTravelDate
@@ -155,11 +161,22 @@ let OrderService = class OrderService {
         if (operator) {
             queryBuilder.andWhere('order.operatorId = :operator', { operator });
         }
-        if (dateFrom) {
-            queryBuilder.andWhere('order.creationDate >= :dateFrom', { dateFrom });
+        console.log({ status });
+        if (status === 'aprobado') {
+            if (dateFrom) {
+                queryBuilder.andWhere('order.approvalDate >= :dateFrom', { dateFrom });
+            }
+            if (dateTo) {
+                queryBuilder.andWhere('order.approvalDate <= :dateTo', { dateTo });
+            }
         }
-        if (dateTo) {
-            queryBuilder.andWhere('order.creationDate <= :dateTo', { dateTo });
+        else {
+            if (dateFrom) {
+                queryBuilder.andWhere('order.creationDate >= :dateFrom', { dateFrom });
+            }
+            if (dateTo) {
+                queryBuilder.andWhere('order.creationDate <= :dateTo', { dateTo });
+            }
         }
         if (search) {
             queryBuilder.andWhere(`

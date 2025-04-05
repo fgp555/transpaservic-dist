@@ -5,6 +5,7 @@ export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
     create(createUserDto: CreateUserDto): Promise<UserEntity>;
+    findAllSuper(): Promise<UserEntity[]>;
     findAll(operator?: number, page?: number, limit?: number, search?: string, role?: string): Promise<{
         results: UserEntity[];
         total: number;

@@ -98,7 +98,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], WablasController.prototype, "remove", null);
 exports.WablasController = WablasController = __decorate([
-    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin, roles_enum_1.RolesEnum.SuperAdmin),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin, roles_enum_1.RolesEnum.SuperAdmin, roles_enum_1.RolesEnum.Collaborator),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Controller)('wablas'),
     __metadata("design:paramtypes", [wablas_service_1.WablasService])
