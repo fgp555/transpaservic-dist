@@ -43,6 +43,7 @@ let SeederModule = class SeederModule {
         await this.operatorSeederService.seed();
         await this.userSeederService.seed();
         await this.mailSeederService.seed();
+        await this.orderSeederService.seed();
         await this.wablasSeeder.seed();
         await this.settingSeed.seed();
     }

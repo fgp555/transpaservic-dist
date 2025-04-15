@@ -24,6 +24,7 @@ const setting_module_1 = require("./module/setting/setting.module");
 const device_module_1 = require("./module/device/device.module");
 const notification_module_1 = require("./module/notification/notification.module");
 const websocket_module_1 = require("./module/websocket/websocket.module");
+const patient_module_1 = require("./module/patient/patient.module");
 const modules = [
     schedule_1.ScheduleModule.forRoot(),
     db_module_2.DbConfigModule,
@@ -38,7 +39,8 @@ const modules = [
     db_module_1.DbModule,
     device_module_1.DeviceModule,
     notification_module_1.NotificationModule,
-    websocket_module_1.WSModule
+    websocket_module_1.WSModule,
+    patient_module_1.PatientModule
 ];
 if (process.env.USE_SEEDER === 'true' && process.env.DROPSCHEMA === 'true') {
     const { SeederModule } = require('./seed/seeder.module');
