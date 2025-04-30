@@ -1,6 +1,6 @@
 /* 
-    <link rel="preload" as="image" id="loaderImg" href="https://frankgp.com/favicon.ico" />
-    <script src="https://frankgp.com/component/loader.js"></script>
+    <link rel="preload" as="image" id="loaderImg" href="https://frank-gp.github.io/favicon.ico" />
+    <script src="https://frank-gp.github.io/component/loader.js"></script>
     <img src="https://source.unsplash.com/1080x1080" alt="" />
 */
 
