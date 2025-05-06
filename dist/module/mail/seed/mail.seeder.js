@@ -16,8 +16,18 @@ let MailSeederService = class MailSeederService {
     constructor(emailTemplatesService) {
         this.emailTemplatesService = emailTemplatesService;
     }
-    async onModuleInit() { }
     async seed() {
+        const Mail = await this.emailTemplatesService.getTemplates();
+        if (Mail.length === 0) {
+            await this.seedMail();
+        }
+        else {
+            const message = 'Mail already exist';
+            console.info(message);
+            return message;
+        }
+    }
+    async seedMail() {
         console.info('Running mail seeder...');
         const templates = [
             {

@@ -39,7 +39,7 @@ let OrderEntity = class OrderEntity {
     setExpirationDate() {
         if (this.creationDate) {
             const creation = new Date(this.creationDate);
-            creation.setDate(creation.getDate() + 48);
+            creation.setDate(creation.getDate() + 45);
             this.expirationDate = creation;
         }
     }

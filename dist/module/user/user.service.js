@@ -62,7 +62,7 @@ let UserService = class UserService {
           operator.name LIKE :search
         )`, { search: `%${search}%` });
             }
-            query.orderBy('user.createdAt', 'DESC');
+            query.orderBy('user.firstName', 'ASC');
             const skip = (page - 1) * limit;
             query.skip(skip).take(limit);
             const [results, total] = await query.getManyAndCount();

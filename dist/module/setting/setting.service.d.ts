@@ -4,8 +4,9 @@ export declare class SettingsService {
     private settingsRepository;
     constructor(settingsRepository: Repository<SettingEntity>);
     getSettingAll(): Promise<SettingEntity[]>;
-    getSetting(key: string): Promise<string | null>;
-    setSetting(key: string, value: string): Promise<void>;
-    updateSetting(key: string, value: string): Promise<void>;
+    findOne(key: string): Promise<SettingEntity | null>;
+    getSettingKey(key: string): Promise<string | null>;
+    setSetting(key: string, type: string, value: any): Promise<void>;
+    updateSetting(key: string, value: any): Promise<void>;
     deleteSetting(key: string): Promise<void>;
 }

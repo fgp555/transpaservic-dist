@@ -26,11 +26,14 @@ let SettingsController = class SettingsController {
     getSettingAll() {
         return this.settingsService.getSettingAll();
     }
-    async getSetting(key) {
-        return { value: await this.settingsService.getSetting(key) };
+    async findOne(key) {
+        return await this.settingsService.findOne(key);
+    }
+    async getSettingKey(key) {
+        return { value: await this.settingsService.getSettingKey(key) };
     }
     async setSetting(body) {
-        await this.settingsService.setSetting(body.key, body.value);
+        await this.settingsService.setSetting(body.key, body.type, body.value);
         return { message: 'Configuración guardada' };
     }
     async updateSetting(key, body) {
@@ -44,18 +47,25 @@ let SettingsController = class SettingsController {
 };
 exports.SettingsController = SettingsController;
 __decorate([
-    (0, common_1.Get)("all"),
+    (0, common_1.Get)('all'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], SettingsController.prototype, "getSettingAll", null);
+__decorate([
+    (0, common_1.Get)('findOne/:key'),
+    __param(0, (0, common_1.Param)('key')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], SettingsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Get)('key/:key'),
     __param(0, (0, common_1.Param)('key')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], SettingsController.prototype, "getSetting", null);
+], SettingsController.prototype, "getSettingKey", null);
 __decorate([
     (0, common_1.Post)('create'),
     __param(0, (0, common_1.Body)()),

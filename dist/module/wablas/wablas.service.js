@@ -59,7 +59,7 @@ let WablasService = class WablasService {
             .trim());
         const firstName = obtenerPrimerNombre(patientName);
         const nameCapitalOperator = capitalizar(nameOperator);
-        let messageTemplate = await this.settingsService.getSetting('whatsapp_message_template');
+        let messageTemplate = await this.settingsService.getSettingKey('whatsapp_message_template');
         if (!messageTemplate) {
             throw new common_1.HttpException('No se encontró la plantilla de mensaje en Settings.', common_1.HttpStatus.NOT_FOUND);
         }

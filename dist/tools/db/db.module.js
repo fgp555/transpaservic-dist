@@ -12,11 +12,15 @@ const db_backup_controller_1 = require("./db-backup.controller");
 const db_backup_service_1 = require("./db-backup.service");
 const controllers = [db_backup_controller_1.DBBackupController];
 const providers = [db_backup_service_1.DBBackupService];
-if (process.env.USE_SEEDER === 'true' && process.env.DROPSCHEMA === 'true') {
+if (process.env.DEVELOPMENT_MODE === 'true') {
     const { DBInfoController } = require('./db-info.controller');
     const { DBInfoService } = require('./db-info.service');
+    const { SqlController } = require('./sql.controller');
+    const { SqlService } = require('./sql.service');
     controllers.push(DBInfoController);
     providers.push(DBInfoService);
+    controllers.push(SqlController);
+    providers.push(SqlService);
 }
 let DbModule = class DbModule {
 };

@@ -161,7 +161,6 @@ let OrderService = class OrderService {
         if (operator) {
             queryBuilder.andWhere('order.operatorId = :operator', { operator });
         }
-        console.log({ status });
         if (status === 'aprobado') {
             if (dateFrom) {
                 queryBuilder.andWhere('order.approvalDate >= :dateFrom', { dateFrom });

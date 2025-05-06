@@ -13,21 +13,31 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
-const common_1 = require("@nestjs/common");
 const auth_guard_1 = require("./auth.guard");
+const auth_service_1 = require("./auth.service");
+const multer_1 = require("multer");
 const platform_express_1 = require("@nestjs/platform-express");
+const uploadPath_1 = require("../file/utils/uploadPath");
 const roles_decorator_1 = require("../../utils/roles/decorator/roles.decorator");
 const roles_enum_1 = require("../../utils/roles/enum/roles.enum");
 const roles_guard_1 = require("../../utils/roles/roles.guard");
-const auth_service_1 = require("./auth.service");
-const multer_1 = require("multer");
-const uploadPath_1 = require("../file/utils/uploadPath");
-const fileName_1 = require("../file/utils/fileName");
-const path = require("path");
 const signin_auth_dto_1 = require("./dto/signin-auth.dto");
+const path = require("path");
+const fileName_1 = require("../file/utils/fileName");
+const common_1 = require("@nestjs/common");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
+    }
+    async signin_captcha(signinDto) {
+        const { token, ignoreCAPTCHA } = signinDto;
+        if (!ignoreCAPTCHA) {
+            const captchaResult = await this.authService.verifyTurnstileToken(token);
+            if (!captchaResult.success) {
+                throw new common_1.BadRequestException('Invalid captcha...');
+            }
+        }
+        return this.authService.signin(signinDto);
     }
     async signin(signinDto) {
         return this.authService.signin(signinDto);
@@ -46,6 +56,13 @@ let AuthController = class AuthController {
     }
 };
 exports.AuthController = AuthController;
+__decorate([
+    (0, common_1.Post)('signin_captcha'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "signin_captcha", null);
 __decorate([
     (0, common_1.Post)('signin'),
     __param(0, (0, common_1.Body)()),

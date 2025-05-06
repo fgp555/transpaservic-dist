@@ -73,8 +73,9 @@ let OrderSaveService = class OrderSaveService {
                     item.userPhone = item.userPhone.split(' / ')[0].trim();
                 }
                 if (!item.expirationDate) {
-                    const expirationDays = 30;
-                    const expirationDate = new Date();
+                    const expirationDays = 45;
+                    const creationDate = new Date(item.creationDate);
+                    const expirationDate = new Date(creationDate);
                     expirationDate.setDate(expirationDate.getDate() + expirationDays);
                     item.expirationDate = expirationDate;
                 }

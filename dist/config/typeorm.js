@@ -5,13 +5,13 @@ const typeorm_1 = require("typeorm");
 const dotenv_1 = require("dotenv");
 const config_1 = require("@nestjs/config");
 (0, dotenv_1.config)({ path: '.env' });
-console.info('dropSchema: ', process.env.DROPSCHEMA || 'false');
-console.info('DB_TYPE: ', process.env.DB_TYPE || 'postgres');
-console.info('DB_DATABASE: ', process.env.DB_DATABASE || 'defaultdb');
 const DB_PASSWORD = process.env.DB_TYPE === 'mysql'
     ? process.env.DB_PASSWORD || ''
     : process.env.DB_PASSWORD;
-console.info('DB_PASSWORD', DB_PASSWORD);
+console.info('DB_TYPE: ', process.env.DB_TYPE || 'postgres');
+console.info('DROPSCHEMA: ', process.env.DROPSCHEMA || 'false');
+console.log('DEVELOPMENT_MODE', process.env.DEVELOPMENT_MODE);
+console.info('DB_DATABASE: ', process.env.DB_DATABASE || 'defaultdb');
 const typeOrmConfig = {
     type: process.env.DB_TYPE || 'postgres',
     host: process.env.DB_HOST || 'localhost',
