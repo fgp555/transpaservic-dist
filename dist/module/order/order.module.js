@@ -28,6 +28,14 @@ const order_save_service_1 = require("./order-save.service");
 const websocket_gateway_1 = require("../websocket/websocket.gateway");
 const get_order_controller_1 = require("./get-order.controller");
 const get_order_service_1 = require("./get-order.service");
+const order_save2_service_1 = require("./order-save2.service");
+const order_save2_controller_1 = require("./order-save2.controller");
+const template_service_1 = require("../whatsapp/template.service");
+const messages_service_1 = require("../whatsapp/messages.service");
+const message_entity_1 = require("../whatsapp/entities/message.entity");
+const contacts_service_1 = require("../whatsapp/contacts.service");
+const whatsapp_module_1 = require("../whatsapp/whatsapp.module");
+const contacts_entity_1 = require("../whatsapp/entities/contacts.entity");
 let OrderModule = class OrderModule {
 };
 exports.OrderModule = OrderModule;
@@ -36,26 +44,34 @@ exports.OrderModule = OrderModule = __decorate([
         imports: [
             file_module_1.FileModule,
             typeorm_1.TypeOrmModule.forFeature([
-                order_entity_1.OrderEntity,
-                operator_entity_1.OperatorEntity,
-                wabla_entity_1.WablaEntity,
                 back_ticket_entity_1.BackTicketEntity,
+                device_entity_1.DeviceEntity,
+                notification_entity_1.NotificationEntity,
+                operator_entity_1.OperatorEntity,
+                order_entity_1.OrderEntity,
                 order_history_entity_1.OrderHistoryEntity,
                 setting_entity_1.SettingEntity,
-                notification_entity_1.NotificationEntity,
-                device_entity_1.DeviceEntity,
+                wabla_entity_1.WablaEntity,
+                contacts_entity_1.WaContactsEntity,
+                message_entity_1.WaMessageEntity,
+                message_entity_1.WaMessageEntity,
             ]),
+            whatsapp_module_1.WhatsappModule,
         ],
-        controllers: [order_controller_1.OrderController, get_order_controller_1.GetOrderController],
+        controllers: [order_controller_1.OrderController, get_order_controller_1.GetOrderController, order_save2_controller_1.OrderSave2Controller],
         providers: [
-            order_service_1.OrderService,
+            get_order_service_1.GetOrderService,
+            notification_service_1.NotificationService,
+            order_save2_service_1.OrderSave2Service,
             order_save_service_1.OrderSaveService,
             order_seeder_1.OrderSeederService,
-            wablas_service_1.WablasService,
+            order_service_1.OrderService,
             setting_service_1.SettingsService,
-            notification_service_1.NotificationService,
+            wablas_service_1.WablasService,
+            contacts_service_1.WaContactsService,
+            messages_service_1.WaMessagesService,
+            template_service_1.WaTemplateService,
             websocket_gateway_1.WSGateway,
-            get_order_service_1.GetOrderService,
         ],
     })
 ], OrderModule);

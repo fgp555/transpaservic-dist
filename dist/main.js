@@ -1,19 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
-const common_1 = require("@nestjs/common");
-const morgan = require("morgan");
-const path_1 = require("path");
-const bodyParser = require("body-parser");
 const exception_filter_1 = require("./utils/filters/exception.filter");
+const path_1 = require("path");
+const common_1 = require("@nestjs/common");
+const core_1 = require("@nestjs/core");
+const common_2 = require("@nestjs/common");
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.useGlobalPipes(new common_1.ValidationPipe({}));
     app.useGlobalFilters(new exception_filter_1.GlobalExceptionFilter());
-    app.setGlobalPrefix('api');
+    app.setGlobalPrefix('api', {
+        exclude: [
+            { path: 'go/:code', method: common_2.RequestMethod.GET },
+        ],
+    });
+    if (process.env.DEVELOPMENT_MODE === 'true') {
+        console.log('enableCors');
+        app.enableCors();
+    }
     app.use(morgan('dev'));
-    app.enableCors();
     app.use(bodyParser.text());
     app.use(bodyParser.json({ limit: '2mb' }));
     app.useStaticAssets((0, path_1.join)(__dirname, '..', 'uploads'), {
@@ -27,7 +35,9 @@ async function bootstrap() {
         .getHttpAdapter()
         .getInstance()
         .all('*', (req, res, next) => {
-        if (!req.url.startsWith('/api')) {
+        const isApi = req.url.startsWith('/api');
+        const isGo = req.url.startsWith('/go');
+        if (!isApi && !isGo) {
             res.sendFile((0, path_1.join)(__dirname, reactjsFolder, 'index.html'));
         }
         else {

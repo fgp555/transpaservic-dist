@@ -20,6 +20,16 @@ let WSService = class WSService {
         this.wsGateway.sendNotificationGateway(operatorId, message);
         return { message: 'Orden creada exitosamente' };
     }
+    getConnectedClientsAndRooms() {
+        return this.wsGateway.getConnectedClientsAndRooms();
+    }
+    getSocketIdsByOperatorId(operatorId) {
+        return this.wsGateway.getSocketIdsByOperatorId(operatorId);
+    }
+    broadcastToAll(body) {
+        this.wsGateway.broadcastToAll(body);
+        return { message: 'Mensaje enviado a todos los operadores conectados' };
+    }
 };
 exports.WSService = WSService;
 exports.WSService = WSService = __decorate([

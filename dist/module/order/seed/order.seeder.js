@@ -17,13 +17,23 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const order_entity_1 = require("../entities/order.entity");
-const demoData = require("./orderData.json");
+const demoData = require("./orderData-prod2.json");
 let OrderSeederService = class OrderSeederService {
     constructor(orderRepository) {
         this.orderRepository = orderRepository;
-        console.info(' OrderSeederService Starting seed...');
     }
     async seed() {
+        const Order = await this.orderRepository.find();
+        if (Order.length === 0) {
+            await this.seedOrder();
+        }
+        else {
+            const message = 'Order already exist';
+            console.info(message);
+            return message;
+        }
+    }
+    async seedOrder() {
         for (const data of demoData) {
             const orderData = {
                 ...data,

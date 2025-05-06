@@ -33,27 +33,27 @@ let OrderSaveService = class OrderSaveService {
     }
     async saveArrayData(dataArray, sendToWhatsApp) {
         const duplicates = {
-            operatorContract: [],
-            orderNumber: [],
+            operatorContractGroup: [],
+            orderNumberGroup: [],
         };
         for (const item of dataArray) {
             const existingOperatorContract = await this.orderRepository.findOne({
                 where: { operatorContract: item.operatorContract },
             });
             if (existingOperatorContract) {
-                duplicates.operatorContract.push(item.operatorContract);
+                duplicates.operatorContractGroup.push(item);
             }
             const existingOrderNumber = await this.orderRepository.findOne({
                 where: { orderNumber: item.orderNumber },
             });
             if (existingOrderNumber) {
-                duplicates.orderNumber.push(item.orderNumber);
+                duplicates.orderNumberGroup.push(item);
             }
         }
-        if (duplicates.operatorContract.length > 0 ||
-            duplicates.orderNumber.length > 0) {
+        if (duplicates.operatorContractGroup.length > 0 ||
+            duplicates.orderNumberGroup.length > 0) {
             throw new common_1.HttpException({
-                message: 'Se han detectado entradas duplicadas',
+                message: 'Existen duplicados en la base de datos.',
                 duplicates,
             }, common_1.HttpStatus.BAD_REQUEST);
         }
@@ -73,8 +73,9 @@ let OrderSaveService = class OrderSaveService {
                     item.userPhone = item.userPhone.split(' / ')[0].trim();
                 }
                 if (!item.expirationDate) {
-                    const expirationDays = 30;
-                    const expirationDate = new Date();
+                    const expirationDays = Number(process.env.ORDER_EXPIRATION_DAYS) || 45;
+                    const creationDate = new Date(item.creationDate);
+                    const expirationDate = new Date(creationDate);
                     expirationDate.setDate(expirationDate.getDate() + expirationDays);
                     item.expirationDate = expirationDate;
                 }
@@ -85,7 +86,7 @@ let OrderSaveService = class OrderSaveService {
             if (sendToWhatsApp) {
                 for (const item of savedOrders) {
                     const sendWhatsappObject = {
-                        userPhone: item.userPhone.split(' / ')[0],
+                        userPhone: item.userPhone,
                         patientName: item.patientName,
                         phoneOperator: item.operator.whatsapp,
                         websiteOperator: item.operator.website,
@@ -94,6 +95,7 @@ let OrderSaveService = class OrderSaveService {
                     await this.wablasService.sendWhatsapp(sendWhatsappObject);
                 }
             }
+            this.expireOldOrders();
             return {
                 message: 'Datos filtrados guardados correctamente',
                 savedOrders,
@@ -126,22 +128,40 @@ let OrderSaveService = class OrderSaveService {
             const sendWhatsappObject = {
                 userPhone: createOrderDto.userPhone,
                 patientName: createOrderDto.patientName,
-                phoneOperator: findOperator.whatsapp,
-                websiteOperator: findOperator.website,
-                nameOperator: findOperator.name,
+                phoneOperator: findOperator?.whatsapp,
+                websiteOperator: findOperator?.website,
+                nameOperator: findOperator?.name,
             };
             await this.notificationService.sendOperatorOrderNotifications([
                 createOrderDto.operator.id,
             ]);
             if (createOrderDto.sendWhatsApp) {
-                const wablas = this.wablasService.sendWhatsapp(sendWhatsappObject);
-                return { order: savedOrder, wablas: wablas };
+                const wablas = await this.wablasService.sendWhatsapp(sendWhatsappObject);
+                return { order: savedOrder, wablas };
             }
+            this.expireOldOrders();
             return { order: savedOrder };
         }
         catch (error) {
             throw new common_1.InternalServerErrorException('Ocurrió un error inesperado');
         }
+    }
+    async expireOldOrders() {
+        const now = new Date();
+        const expirationLimit = new Date();
+        expirationLimit.setDate(now.getDate() - Number(process.env.ORDER_EXPIRATION_DAYS) || 45);
+        const expiredOrders = await this.orderRepository.find({
+            where: {
+                creationDate: (0, typeorm_2.LessThan)(expirationLimit),
+                status: (0, typeorm_2.Not)(order_entity_1.OrderStatus.EXPIRADO),
+            },
+        });
+        if (expiredOrders.length === 0)
+            return;
+        for (const order of expiredOrders) {
+            order.status = order_entity_1.OrderStatus.EXPIRADO;
+        }
+        await this.orderRepository.save(expiredOrders);
     }
 };
 exports.OrderSaveService = OrderSaveService;

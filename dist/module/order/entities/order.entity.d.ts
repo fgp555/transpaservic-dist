@@ -31,7 +31,6 @@ export declare class OrderEntity {
     itinerary: string;
     creationDate: Date;
     expirationDate: Date | null;
-    setExpirationDate(): void;
     travelDate: Date | null;
     approvalDate: Date | null;
     approvalTravelDate: Date | null;

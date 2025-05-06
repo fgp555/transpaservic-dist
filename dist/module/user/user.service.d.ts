@@ -1,9 +1,11 @@
 import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { OrderHistoryEntity } from '../order/entities/order-history.entity';
 export declare class UserService {
     private readonly userRepository;
-    constructor(userRepository: Repository<UserEntity>);
+    private readonly orderHistoryRepository;
+    constructor(userRepository: Repository<UserEntity>, orderHistoryRepository: Repository<OrderHistoryEntity>);
     create(createUserDto: CreateUserDto): Promise<UserEntity>;
     findAllSuper(): Promise<UserEntity[]>;
     findAll(filters: {
@@ -24,4 +26,8 @@ export declare class UserService {
     findByRole(role: 'admin' | 'user' | 'professional', orderBy: string, order: 'ASC' | 'DESC', limit?: number): Promise<UserEntity[]>;
     update(id: string, body: any): Promise<UserEntity>;
     remove(id: string): Promise<UserEntity>;
+    deleteMany(userIds: string[]): Promise<{
+        message: string;
+        deletedIds: string[];
+    }>;
 }

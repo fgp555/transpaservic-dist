@@ -2,5 +2,6 @@ import { WablasService } from '../wablas.service';
 export declare class WablasSeeder {
     private readonly wablasService;
     constructor(wablasService: WablasService);
-    seed(): Promise<void>;
+    seed(): Promise<string>;
+    seedWablas(): Promise<void>;
 }

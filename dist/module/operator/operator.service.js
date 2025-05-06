@@ -70,9 +70,9 @@ let OperatorService = class OperatorService {
         queryBuilder.orderBy('operator.name', 'ASC');
         const [results, total] = await queryBuilder.getManyAndCount();
         return {
-            results,
             total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
+            results,
         };
     }
     async findByName(name) {
@@ -136,6 +136,27 @@ let OperatorService = class OperatorService {
         }
         await this.operatorRepository.delete(id);
         return { message: `El operator con ID ${id} fue eliminado exitosamente` };
+    }
+    async deleteMany(ids) {
+        const conflictedOperators = [];
+        for (const id of ids) {
+            const operator = await this.operatorRepository.findOne({
+                where: { id },
+                relations: ['users'],
+            });
+            if (!operator) {
+                throw new common_1.NotFoundException(`Operador con ID ${id} no encontrado`);
+            }
+            if (operator.users?.length > 0) {
+                conflictedOperators.push(operator);
+            }
+        }
+        if (conflictedOperators.length > 0) {
+            const message = conflictedOperators.map((o) => `${o.name}`).join(' - ');
+            throw new common_1.ConflictException(message);
+        }
+        await this.operatorRepository.delete({ id: (0, typeorm_2.In)(ids) });
+        return { message: 'Operadores eliminados exitosamente', deletedIds: ids };
     }
 };
 exports.OperatorService = OperatorService;

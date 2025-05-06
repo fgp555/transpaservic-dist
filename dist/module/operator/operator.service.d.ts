@@ -12,14 +12,18 @@ export declare class OperatorService {
         page?: number;
         limit?: number;
     }): Promise<{
-        results: OperatorEntity[];
         total: number;
         totalPages: number;
+        results: OperatorEntity[];
     }>;
     findByName(name: string): Promise<OperatorEntity[]>;
     findOne(id: number): Promise<OperatorEntity>;
     update(id: number, updateOperatorDto: any): Promise<OperatorEntity>;
     remove(id: number): Promise<{
         message: string;
+    }>;
+    deleteMany(ids: number[]): Promise<{
+        message: string;
+        deletedIds: number[];
     }>;
 }

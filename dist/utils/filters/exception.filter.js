@@ -12,19 +12,21 @@ let GlobalExceptionFilter = class GlobalExceptionFilter {
     catch(exception, host) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
-        let status = common_1.HttpStatus.INTERNAL_SERVER_ERROR;
-        let message = 'Internal server error';
-        if (exception instanceof common_1.HttpException) {
-            status = exception.getStatus();
-            const exceptionResponse = exception.getResponse();
-            message =
-                typeof exceptionResponse === 'string'
-                    ? exceptionResponse
-                    : exceptionResponse.message || message;
-        }
+        const request = ctx.getRequest();
+        const status = exception instanceof common_1.HttpException
+            ? exception.getStatus()
+            : common_1.HttpStatus.INTERNAL_SERVER_ERROR;
+        const exceptionResponse = exception instanceof common_1.HttpException ? exception.getResponse() : null;
+        const errorResponse = typeof exceptionResponse === 'object' && exceptionResponse !== null
+            ? exceptionResponse
+            : {
+                message: exception.message || 'Ocurrió un error inesperado en el servidor',
+            };
         response.status(status).json({
             statusCode: status,
-            message,
+            path: request.url,
+            timestamp: new Date().toISOString(),
+            ...errorResponse,
         });
     }
 };

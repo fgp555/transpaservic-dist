@@ -36,13 +36,6 @@ var DocumentType;
     DocumentType["NV"] = "NV";
 })(DocumentType || (exports.DocumentType = DocumentType = {}));
 let OrderEntity = class OrderEntity {
-    setExpirationDate() {
-        if (this.creationDate) {
-            const creation = new Date(this.creationDate);
-            creation.setDate(creation.getDate() + 48);
-            this.expirationDate = creation;
-        }
-    }
 };
 exports.OrderEntity = OrderEntity;
 __decorate([
@@ -94,13 +87,6 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'datetime', nullable: true }),
     __metadata("design:type", Date)
 ], OrderEntity.prototype, "expirationDate", void 0);
-__decorate([
-    (0, typeorm_1.BeforeInsert)(),
-    (0, typeorm_1.BeforeUpdate)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], OrderEntity.prototype, "setExpirationDate", null);
 __decorate([
     (0, typeorm_1.Column)({ type: 'date', nullable: true }),
     __metadata("design:type", Date)

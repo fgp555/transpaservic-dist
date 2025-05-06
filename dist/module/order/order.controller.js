@@ -28,6 +28,7 @@ const uploadPath_1 = require("../file/utils/uploadPath");
 const multer_1 = require("multer");
 const fileName_1 = require("../file/utils/fileName");
 const order_save_service_1 = require("./order-save.service");
+const delete_orders_dto_1 = require("./dto/delete-orders.dto");
 let OrderController = class OrderController {
     constructor(orderService, orderSaveService) {
         this.orderService = orderService;
@@ -36,8 +37,8 @@ let OrderController = class OrderController {
     async orderHistoryAll() {
         return this.orderService.orderHistoryAll();
     }
-    async expireOldOrders() {
-        await this.orderService.expireOrders();
+    async markExpiredStatus() {
+        await this.orderService.markExpiredStatus();
     }
     approveOrder(file, body) {
         const filePath = path.join((0, uploadPath_1.getUploadFolder)('order'), file.filename);
@@ -55,7 +56,7 @@ let OrderController = class OrderController {
         }
         return this.orderSaveService.saveArrayData(data, sendToWhatsApp);
     }
-    async checkAndUpdateExpirationDates() {
+    async updateExpirationDates() {
         return this.orderService.updateExpirationDates();
     }
     async checkIfExists(orderNumber, operatorContract) {
@@ -102,6 +103,15 @@ let OrderController = class OrderController {
     remove(id) {
         return this.orderService.remove(+id);
     }
+    async deleteAllOrders() {
+        const result = await this.orderService.deleteAllOrders();
+        return {
+            message: `Se eliminaron ${result.deleted} órdenes.`,
+        };
+    }
+    async deleteMany(deleteOrdersDto) {
+        return this.orderService.deleteMany(deleteOrdersDto.ids);
+    }
 };
 exports.OrderController = OrderController;
 __decorate([
@@ -112,11 +122,11 @@ __decorate([
 ], OrderController.prototype, "orderHistoryAll", null);
 __decorate([
     (0, schedule_1.Cron)('0 0 * * *'),
-    (0, common_1.Patch)('expireOldOrders'),
+    (0, common_1.Patch)('markExpiredStatus'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], OrderController.prototype, "expireOldOrders", null);
+], OrderController.prototype, "markExpiredStatus", null);
 __decorate([
     (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin, roles_enum_1.RolesEnum.SuperAdmin, roles_enum_1.RolesEnum.Collaborator),
     (0, common_1.Post)('approve'),
@@ -163,11 +173,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "saveArrayData", null);
 __decorate([
-    (0, common_1.Patch)('check-expiration'),
+    (0, common_1.Patch)('updateExpirationDates'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], OrderController.prototype, "checkAndUpdateExpirationDates", null);
+], OrderController.prototype, "updateExpirationDates", null);
 __decorate([
     (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.User, roles_enum_1.RolesEnum.Admin, roles_enum_1.RolesEnum.SuperAdmin, roles_enum_1.RolesEnum.Collaborator),
     (0, common_1.Get)('exists'),
@@ -253,12 +263,27 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "deleteBackTicket", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
+    (0, common_1.Delete)('remove/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Delete)('deleteAllOrders'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "deleteAllOrders", null);
+__decorate([
+    (0, common_1.Delete)('deleteMany'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [delete_orders_dto_1.DeleteOrdersDto]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "deleteMany", null);
 exports.OrderController = OrderController = __decorate([
     (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin, roles_enum_1.RolesEnum.SuperAdmin, roles_enum_1.RolesEnum.Collaborator),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),

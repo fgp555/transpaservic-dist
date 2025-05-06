@@ -23,6 +23,10 @@ __decorate([
     __metadata("design:type", String)
 ], SettingEntity.prototype, "key", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], SettingEntity.prototype, "type", void 0);
+__decorate([
     (0, typeorm_1.Column)('text'),
     __metadata("design:type", String)
 ], SettingEntity.prototype, "value", void 0);

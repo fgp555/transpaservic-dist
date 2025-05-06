@@ -73,7 +73,6 @@ let NotificationService = NotificationService_1 = class NotificationService {
                 },
             });
             if (orderCount === 0) {
-                console.info(`🔹 Operador ${operatorId} no tiene órdenes pendientes.`);
                 return;
             }
             const findOperator = await this.operatorRepository.findOne({
@@ -89,7 +88,6 @@ let NotificationService = NotificationService_1 = class NotificationService {
                 .getMany();
             const tokens = devices.map((device) => device.expoPushToken);
             if (tokens.length === 0) {
-                console.warn(`⚠️ Operador ${operatorId} no tiene dispositivos registrados.`);
                 return;
             }
             notifications.push(this.notificationRepository.create({

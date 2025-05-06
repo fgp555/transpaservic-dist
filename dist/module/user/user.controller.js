@@ -63,6 +63,9 @@ let UserController = class UserController {
         }
         return await this.userService.remove(id);
     }
+    async deleteMany(deleteOrdersDto) {
+        return this.userService.deleteMany(deleteOrdersDto.ids);
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -125,6 +128,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Delete)('deleteMany'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "deleteMany", null);
 exports.UserController = UserController = __decorate([
     (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin, roles_enum_1.RolesEnum.SuperAdmin),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),

@@ -18,6 +18,7 @@ const auth_password_service_1 = require("./auth-password.service");
 const file_module_1 = require("../file/file.module");
 const auth_service_1 = require("./auth.service");
 const auth_password_controller_1 = require("./auth-password.controller");
+const order_history_entity_1 = require("../order/entities/order-history.entity");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -25,7 +26,7 @@ exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
             file_module_1.FileModule,
-            typeorm_1.TypeOrmModule.forFeature([user_entity_1.UserEntity]),
+            typeorm_1.TypeOrmModule.forFeature([user_entity_1.UserEntity, order_history_entity_1.OrderHistoryEntity]),
             jwt_1.JwtModule.register({
                 global: true,
                 signOptions: { expiresIn: process.env.JWT_EXPIRES_IN || '7d' },
