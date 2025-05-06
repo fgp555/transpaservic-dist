@@ -24,17 +24,33 @@ let SettingsService = class SettingsService {
     async getSettingAll() {
         return this.settingsRepository.find();
     }
-    async getSetting(key) {
+    async findOne(key) {
+        return this.settingsRepository.findOne({ where: { key } });
+    }
+    async getSettingKey(key) {
         const setting = await this.settingsRepository.findOne({ where: { key } });
         return setting ? setting.value : null;
     }
-    async setSetting(key, value) {
-        await this.settingsRepository.save({ key, value });
+    async setSetting(key, type, value) {
+        let valueToSave = String(value);
+        if (type === 'json') {
+            try {
+                const parsed = typeof value === 'string' ? JSON.parse(value) : value;
+                valueToSave = JSON.stringify(parsed, null, 2);
+            }
+            catch (e) {
+                throw new Error(`El valor de tipo JSON es inválido para "${key}"`);
+            }
+        }
+        await this.settingsRepository.save({ key, type, value: valueToSave });
     }
     async updateSetting(key, value) {
         const setting = await this.settingsRepository.findOne({ where: { key } });
         if (setting) {
-            setting.value = value;
+            setting.value =
+                typeof value === 'object'
+                    ? JSON.stringify(value, null, 2)
+                    : String(value);
             await this.settingsRepository.save(setting);
         }
     }

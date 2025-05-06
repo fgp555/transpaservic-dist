@@ -14,7 +14,7 @@ export declare class OrderService {
     private readonly notificationService;
     constructor(orderRepository: Repository<OrderEntity>, backTicketRepository: Repository<BackTicketEntity>, orderHistoryRepository: Repository<OrderHistoryEntity>, operatorRepository: Repository<OperatorEntity>, wablasService: WablasService, notificationService: NotificationService);
     orderHistoryAll(): Promise<OrderHistoryEntity[]>;
-    expireOrders(): Promise<void>;
+    markExpiredStatus(): Promise<void>;
     approvalTravelDate(body: any): Promise<OrderEntity>;
     approveOrder(body: any, filename: string): Promise<OrderEntity>;
     deleteTicketImage(orderNumber: string): Promise<OrderEntity>;
@@ -202,4 +202,11 @@ export declare class OrderService {
     }>;
     deleteBackTicket(id: number): Promise<import("typeorm").DeleteResult>;
     remove(id: number): Promise<import("typeorm").DeleteResult>;
+    deleteAllOrders(): Promise<{
+        deleted: number;
+    }>;
+    deleteMany(ids: number[]): Promise<{
+        message: string;
+        deletedIds: number[];
+    }>;
 }

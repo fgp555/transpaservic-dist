@@ -17,6 +17,17 @@ let WablasSeeder = class WablasSeeder {
         this.wablasService = wablasService;
     }
     async seed() {
+        const Wablas = await this.wablasService.findAll();
+        if (Wablas.length === 0) {
+            await this.seedWablas();
+        }
+        else {
+            const message = 'Wablas already exist';
+            console.info(message);
+            return message;
+        }
+    }
+    async seedWablas() {
         console.info('process.env.WABLAS_TOKEN', process.env.WABLAS_TOKEN);
         const data = {
             deviceId: '8542Q5',

@@ -2,17 +2,18 @@ import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrderSaveService } from './order-save.service';
+import { DeleteOrdersDto } from './dto/delete-orders.dto';
 export declare class OrderController {
     private readonly orderService;
     private readonly orderSaveService;
     constructor(orderService: OrderService, orderSaveService: OrderSaveService);
     orderHistoryAll(): Promise<import("./entities/order-history.entity").OrderHistoryEntity[]>;
-    expireOldOrders(): Promise<void>;
+    markExpiredStatus(): Promise<void>;
     approveOrder(file: Express.Multer.File, body: any): Promise<import("./entities/order.entity").OrderEntity>;
     approvalTravelDate(body: any): Promise<import("./entities/order.entity").OrderEntity>;
     deleteTicketImage(orderNumber: string): Promise<import("./entities/order.entity").OrderEntity>;
     saveArrayData(data: any[], sendToWhatsApp: boolean): Promise<any>;
-    checkAndUpdateExpirationDates(): Promise<{
+    updateExpirationDates(): Promise<{
         message: string;
         updatedOrders: import("./entities/order.entity").OrderEntity[];
     }>;
@@ -21,7 +22,7 @@ export declare class OrderController {
     }>;
     create(createOrderDto: CreateOrderDto): Promise<{
         order: import("./entities/order.entity").OrderEntity[];
-        wablas: Promise<{
+        wablas: {
             apiResponse: any;
             id: number;
             deviceId: string;
@@ -31,7 +32,7 @@ export declare class OrderController {
             apiKeyToken: string;
             secretKey: string;
             user: import("../user/entities/user.entity").UserEntity;
-        }>;
+        };
     } | {
         order: import("./entities/order.entity").OrderEntity[];
         wablas?: undefined;
@@ -205,4 +206,11 @@ export declare class OrderController {
     }>;
     deleteBackTicket(id: string): Promise<import("typeorm").DeleteResult>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;
+    deleteAllOrders(): Promise<{
+        message: string;
+    }>;
+    deleteMany(deleteOrdersDto: DeleteOrdersDto): Promise<{
+        message: string;
+        deletedIds: number[];
+    }>;
 }

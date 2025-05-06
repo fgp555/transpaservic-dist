@@ -54,7 +54,7 @@ __decorate([
 ], OperatorEntity.prototype, "orders", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => user_entity_1.UserEntity, (t) => t.operator, {}),
-    __metadata("design:type", user_entity_1.UserEntity)
+    __metadata("design:type", Array)
 ], OperatorEntity.prototype, "users", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => notification_entity_1.NotificationEntity, (notification) => notification.operator),

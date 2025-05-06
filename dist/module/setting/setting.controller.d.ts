@@ -3,17 +3,19 @@ export declare class SettingsController {
     private readonly settingsService;
     constructor(settingsService: SettingsService);
     getSettingAll(): Promise<import("./entities/setting.entity").SettingEntity[]>;
-    getSetting(key: string): Promise<{
+    findOne(key: string): Promise<import("./entities/setting.entity").SettingEntity>;
+    getSettingKey(key: string): Promise<{
         value: string;
     }>;
     setSetting(body: {
         key: string;
+        type: string;
         value: string;
     }): Promise<{
         message: string;
     }>;
     updateSetting(key: string, body: {
-        value: string;
+        value: any;
     }): Promise<{
         message: string;
     }>;

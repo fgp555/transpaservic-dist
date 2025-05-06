@@ -15,4 +15,8 @@ export declare class UserController {
     findByRole(role?: 'admin' | 'user' | 'professional', orderBy?: string, order?: 'ASC' | 'DESC', limit?: number): Promise<UserEntity[]>;
     findOne(id: string): Promise<UserEntity>;
     remove(id: string): Promise<UserEntity>;
+    deleteMany(deleteOrdersDto: any): Promise<{
+        message: string;
+        deletedIds: string[];
+    }>;
 }

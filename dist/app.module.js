@@ -24,25 +24,27 @@ const setting_module_1 = require("./module/setting/setting.module");
 const device_module_1 = require("./module/device/device.module");
 const notification_module_1 = require("./module/notification/notification.module");
 const websocket_module_1 = require("./module/websocket/websocket.module");
+const seeder_module_1 = require("./seeder/seeder.module");
+const whatsapp_module_1 = require("./module/whatsapp/whatsapp.module");
 const modules = [
-    schedule_1.ScheduleModule.forRoot(),
     db_module_2.DbConfigModule,
-    user_module_1.UserModule,
+    schedule_1.ScheduleModule.forRoot(),
+    db_module_1.DbModule,
+    file_module_1.FileModule,
     auth_module_1.AuthModule,
-    order_module_1.OrderModule,
-    operator_module_1.OperatorModule,
+    user_module_1.UserModule,
+    notification_module_1.NotificationModule,
+    setting_module_1.SettingModule,
+    device_module_1.DeviceModule,
     wablas_module_1.WablasModule,
     mail_module_1.MailModule,
-    file_module_1.FileModule,
-    setting_module_1.SettingModule,
-    db_module_1.DbModule,
-    device_module_1.DeviceModule,
-    notification_module_1.NotificationModule,
     websocket_module_1.WSModule,
+    seeder_module_1.SeederModule,
+    whatsapp_module_1.WhatsappModule,
+    order_module_1.OrderModule,
+    operator_module_1.OperatorModule,
 ];
-if (process.env.USE_SEEDER === 'true' && process.env.DROPSCHEMA === 'true') {
-    const { SeederModule } = require('./seed/seeder.module');
-    modules.push(SeederModule);
+if (process.env.DEVELOPMENT_MODE === 'true') {
     const { InfoModule } = require('./tools/info/info.module');
     modules.push(InfoModule);
 }

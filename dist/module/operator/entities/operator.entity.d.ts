@@ -10,6 +10,6 @@ export declare class OperatorEntity {
     image: string;
     registrationDate: Date;
     orders: OrderEntity;
-    users: UserEntity;
+    users: UserEntity[];
     notifications: NotificationEntity[];
 }

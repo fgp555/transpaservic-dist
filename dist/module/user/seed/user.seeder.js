@@ -11,60 +11,46 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserSeederService = void 0;
 const common_1 = require("@nestjs/common");
-const user_service_1 = require("../user.service");
 const bcrypt = require("bcrypt");
+const user_service_1 = require("../user.service");
 let UserSeederService = class UserSeederService {
     constructor(userService) {
         this.userService = userService;
     }
     async seed() {
+        const User = await this.userService.findAllSuper();
+        if (User.length === 0) {
+            await this.seedUser();
+        }
+        else {
+            const message = 'Users already exist';
+            console.info(message);
+            return message;
+        }
+    }
+    async seedUser() {
         const ADMINPASS = process.env.ADMINPASS;
-        const hashedPassAdmin = await bcrypt.hash(ADMINPASS, 10);
-        const hashedPassUser = await bcrypt.hash('copetran123456', 10);
-        const hashedPassSuper = await bcrypt.hash(ADMINPASS + 'super', 10);
-        const hashedPassFelipe = await bcrypt.hash('felipe@systered.com', 10);
+        const hashedPass = (password) => bcrypt.hash(password, 10);
         const users = [
             {
                 id: '54695949-687c-45f5-b7df-4a08d810f0ee',
                 firstName: 'SUPERADMIN',
                 email: 'desarrollotranspaservic@gmail.com',
-                password: hashedPassSuper,
-                confirmPassword: hashedPassSuper,
+                password: await hashedPass(ADMINPASS + 'super'),
                 role: 'superadmin',
                 sendMail: false,
                 image: 'https://i.postimg.cc/Zn1WqNzG/Transpa-Servic-Logo.webp',
-                operator: { id: 1 },
+                operator: { id: 9 },
                 isVisible: false,
             },
             {
                 id: '3385ac2a-79f3-4f80-99b0-ca99f153619b',
                 firstName: 'TRANSPASERVIC',
                 email: 'admin@transpaservic.com.co',
-                password: hashedPassAdmin,
-                confirmPassword: hashedPassAdmin,
+                password: await hashedPass(ADMINPASS),
                 role: 'admin',
                 sendMail: false,
                 image: 'https://i.postimg.cc/05Kfp6bt/icono.webp',
-            },
-            {
-                firstName: 'COPETRAN USER',
-                whatsapp: '+51277889900',
-                email: 'copetran@transpaservic.com.co',
-                password: await bcrypt.hash('copetran@transpaservic.com.co', 10),
-                role: 'user',
-                sendMail: false,
-                operator: { id: 11 },
-                isVisible: false,
-            },
-            {
-                firstName: 'Admin Colaborator',
-                whatsapp: '+51277889900',
-                email: 'collaborator@transpaservic.com.co',
-                password: await bcrypt.hash('collaborator@transpaservic.com.co', 10),
-                role: 'collaborator',
-                sendMail: false,
-                operator: { id: 11 },
-                isVisible: false,
             },
         ];
         for (const user of users) {

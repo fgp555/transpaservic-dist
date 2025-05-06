@@ -21,6 +21,7 @@ let AuthService = class AuthService {
         this.mailTemplatesService = mailTemplatesService;
         this.userService = userService;
         this.jwtService = jwtService;
+        this.turnstileSecretKey = process.env.TURNSTILE_SERVER_KEY;
     }
     async signin(SigninDto) {
         const foundEmail = await this.userService.findOneEmail(SigninDto.email);
@@ -117,6 +118,26 @@ let AuthService = class AuthService {
         const updatedUser = await this.userService.update(userId, updateData);
         const { password, ...withoutPassword } = updatedUser;
         return withoutPassword;
+    }
+    async verifyTurnstileToken(token) {
+        const params = new URLSearchParams({
+            secret: this.turnstileSecretKey,
+            response: token,
+        });
+        try {
+            const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: params,
+            });
+            return await response.json();
+        }
+        catch (error) {
+            console.error('Error verifying Turnstile token:', error);
+            throw new common_1.BadRequestException('Error verifying captcha');
+        }
     }
 };
 exports.AuthService = AuthService;

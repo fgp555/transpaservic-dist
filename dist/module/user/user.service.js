@@ -17,9 +17,11 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const user_entity_1 = require("./entities/user.entity");
+const order_history_entity_1 = require("../order/entities/order-history.entity");
 let UserService = class UserService {
-    constructor(userRepository) {
+    constructor(userRepository, orderHistoryRepository) {
         this.userRepository = userRepository;
+        this.orderHistoryRepository = orderHistoryRepository;
     }
     async create(createUserDto) {
         if (createUserDto.email) {
@@ -62,7 +64,7 @@ let UserService = class UserService {
           operator.name LIKE :search
         )`, { search: `%${search}%` });
             }
-            query.orderBy('user.createdAt', 'DESC');
+            query.orderBy('user.firstName', 'ASC');
             const skip = (page - 1) * limit;
             query.skip(skip).take(limit);
             const [results, total] = await query.getManyAndCount();
@@ -153,11 +155,42 @@ let UserService = class UserService {
             throw new common_1.InternalServerErrorException('Error al intentar eliminar al usuario. Por favor, inténtalo de nuevo más tarde.', error.message);
         }
     }
+    async deleteMany(userIds) {
+        const users = await this.userRepository.find({
+            where: { id: (0, typeorm_2.In)(userIds) },
+        });
+        if (users.length !== userIds.length) {
+            throw new common_1.NotFoundException('Uno o más usuarios no fueron encontrados.');
+        }
+        const usersWithHistory = await this.orderHistoryRepository.find({
+            where: {
+                modifiedByUser: (0, typeorm_2.In)(userIds),
+            },
+            relations: ['modifiedByUser'],
+        });
+        if (usersWithHistory.length > 0) {
+            const userIdsWithHistory = [
+                ...new Set(usersWithHistory.map((h) => h.modifiedByUser.id)),
+            ];
+            const userInfo = users
+                .filter((user) => userIdsWithHistory.includes(user.id))
+                .map((user) => `${user.firstName || user.email || 'sin nombre'}`)
+                .join(', ');
+            throw new common_1.ConflictException(`No se pueden eliminar los siguientes usuarios porque tienen historial de órdenes: ${userInfo}`);
+        }
+        await this.userRepository.remove(users);
+        return {
+            message: 'Usuarios eliminados exitosamente',
+            deletedIds: userIds,
+        };
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.UserEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(order_history_entity_1.OrderHistoryEntity)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

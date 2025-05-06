@@ -21,9 +21,19 @@ const demoData = require("./orderData.json");
 let OrderSeederService = class OrderSeederService {
     constructor(orderRepository) {
         this.orderRepository = orderRepository;
-        console.info(' OrderSeederService Starting seed...');
     }
     async seed() {
+        const Order = await this.orderRepository.find();
+        if (Order.length === 0) {
+            await this.seedOrder();
+        }
+        else {
+            const message = 'Order already exist';
+            console.info(message);
+            return message;
+        }
+    }
+    async seedOrder() {
         for (const data of demoData) {
             const orderData = {
                 ...data,

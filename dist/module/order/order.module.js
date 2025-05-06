@@ -28,6 +28,9 @@ const order_save_service_1 = require("./order-save.service");
 const websocket_gateway_1 = require("../websocket/websocket.gateway");
 const get_order_controller_1 = require("./get-order.controller");
 const get_order_service_1 = require("./get-order.service");
+const order_save2_service_1 = require("./order-save2.service");
+const order_save2_controller_1 = require("./order-save2.controller");
+const sender_service_1 = require("../whatsapp/sender.service");
 let OrderModule = class OrderModule {
 };
 exports.OrderModule = OrderModule;
@@ -46,7 +49,7 @@ exports.OrderModule = OrderModule = __decorate([
                 device_entity_1.DeviceEntity,
             ]),
         ],
-        controllers: [order_controller_1.OrderController, get_order_controller_1.GetOrderController],
+        controllers: [order_controller_1.OrderController, get_order_controller_1.GetOrderController, order_save2_controller_1.OrderSave2Controller],
         providers: [
             order_service_1.OrderService,
             order_save_service_1.OrderSaveService,
@@ -56,6 +59,8 @@ exports.OrderModule = OrderModule = __decorate([
             notification_service_1.NotificationService,
             websocket_gateway_1.WSGateway,
             get_order_service_1.GetOrderService,
+            order_save2_service_1.OrderSave2Service,
+            sender_service_1.WASenderService,
         ],
     })
 ], OrderModule);

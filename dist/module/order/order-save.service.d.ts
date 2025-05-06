@@ -16,7 +16,7 @@ export declare class OrderSaveService {
     saveArrayData(dataArray: any[], sendToWhatsApp: boolean): Promise<any>;
     create(createOrderDto: any): Promise<{
         order: OrderEntity[];
-        wablas: Promise<{
+        wablas: {
             apiResponse: any;
             id: number;
             deviceId: string;
@@ -26,9 +26,10 @@ export declare class OrderSaveService {
             apiKeyToken: string;
             secretKey: string;
             user: import("../user/entities/user.entity").UserEntity;
-        }>;
+        };
     } | {
         order: OrderEntity[];
         wablas?: undefined;
     }>;
+    private expireOldOrders;
 }

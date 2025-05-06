@@ -8,9 +8,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
+const fs_1 = require("fs");
+const path_1 = require("path");
 let AppService = class AppService {
-    getHello() {
-        return 'Hello World!';
+    getFormattedDate(path) {
+        try {
+            const stats = (0, fs_1.statSync)(path);
+            return { stats_modify_time: stats.mtime };
+        }
+        catch {
+            return { local: 'No disponible', utc: 'No disponible' };
+        }
+    }
+    build() {
+        const distPath = (0, path_1.join)(__dirname);
+        const indexPath = (0, path_1.join)(__dirname, '../../transpaservic-dist/frontend/index.html');
+        const build_dist = this.getFormattedDate(distPath);
+        const build_index = this.getFormattedDate(indexPath);
+        return { build_dist, build_index };
     }
 };
 exports.AppService = AppService;

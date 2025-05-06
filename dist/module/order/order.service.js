@@ -36,20 +36,21 @@ let OrderService = class OrderService {
         const orderHistory = await this.orderHistoryRepository.find();
         return orderHistory;
     }
-    async expireOrders() {
-        const now = new Date();
-        const expiredOrders = await this.orderRepository.find({
+    async markExpiredStatus() {
+        const currentDate = new Date();
+        const expirationLimit = new Date();
+        expirationLimit.setDate(currentDate.getDate() - Number(process.env.ORDER_EXPIRATION_DAYS) || 45);
+        const ordersToExpire = await this.orderRepository.find({
             where: {
-                expirationDate: (0, typeorm_2.LessThan)(now),
-                status: order_entity_1.OrderStatus.PENDIENTE,
+                creationDate: (0, typeorm_2.LessThan)(expirationLimit),
+                status: (0, typeorm_2.Not)(order_entity_1.OrderStatus.EXPIRADO),
             },
         });
-        if (expiredOrders.length > 0) {
-            await this.orderRepository.update({
-                expirationDate: (0, typeorm_2.LessThan)(now),
-                status: order_entity_1.OrderStatus.PENDIENTE,
-            }, { status: order_entity_1.OrderStatus.EXPIRADO });
-            console.info(`${expiredOrders.length} órdenes han sido expiradas.`);
+        for (const order of ordersToExpire) {
+            order.status = order_entity_1.OrderStatus.EXPIRADO;
+        }
+        if (ordersToExpire.length > 0) {
+            await this.orderRepository.save(ordersToExpire);
         }
     }
     async approvalTravelDate(body) {
@@ -129,7 +130,8 @@ let OrderService = class OrderService {
         }
         for (const order of ordersWithoutExpiration) {
             order.expirationDate = new Date(order.creationDate);
-            order.expirationDate.setDate(order.expirationDate.getDate() + 30);
+            order.expirationDate.setDate(order.expirationDate.getDate() +
+                Number(process.env.ORDER_EXPIRATION_DAYS));
         }
         await this.orderRepository.save(ordersWithoutExpiration);
         return {
@@ -161,7 +163,6 @@ let OrderService = class OrderService {
         if (operator) {
             queryBuilder.andWhere('order.operatorId = :operator', { operator });
         }
-        console.log({ status });
         if (status === 'aprobado') {
             if (dateFrom) {
                 queryBuilder.andWhere('order.approvalDate >= :dateFrom', { dateFrom });
@@ -300,6 +301,7 @@ let OrderService = class OrderService {
         await this.orderHistoryRepository.save(orderHistoryCreate);
         const { orderHistory, ...restBody } = body;
         await this.orderRepository.update(id, restBody);
+        this.markExpiredStatus();
         return this.findOne(id);
     }
     async deleteBackTicket(id) {
@@ -318,6 +320,23 @@ let OrderService = class OrderService {
             throw new common_1.NotFoundException(`Order con ID ${id} no encontrado`);
         }
         return await this.orderRepository.delete(id);
+    }
+    async deleteAllOrders() {
+        if (process.env.DEVELOPMENT_MODE !== 'true') {
+            throw new common_1.ForbiddenException('Este endpoint solo está disponible en desarrollo');
+        }
+        const result = await this.orderRepository.delete({});
+        return { deleted: result.affected || 0 };
+    }
+    async deleteMany(ids) {
+        const orders = await this.orderRepository.find({
+            where: { id: (0, typeorm_2.In)(ids) },
+        });
+        if (orders.length !== ids.length) {
+            throw new common_1.NotFoundException('Una o más órdenes no fueron encontradas.');
+        }
+        await this.orderRepository.remove(orders);
+        return { message: 'Órdenes eliminadas exitosamente', deletedIds: ids };
     }
 };
 exports.OrderService = OrderService;

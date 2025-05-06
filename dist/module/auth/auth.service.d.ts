@@ -6,6 +6,7 @@ export declare class AuthService {
     private readonly mailTemplatesService;
     private readonly userService;
     private readonly jwtService;
+    private readonly turnstileSecretKey;
     constructor(mailTemplatesService: MailTemplatesService, userService: UserService, jwtService: JwtService);
     signin(SigninDto: SigninDto): Promise<{
         login: boolean;
@@ -79,4 +80,5 @@ export declare class AuthService {
         devices: import("../device/entities/device.entity").DeviceEntity[];
         wabla: import("../wablas/entities/wabla.entity").WablaEntity;
     }>;
+    verifyTurnstileToken(token: string): Promise<any>;
 }

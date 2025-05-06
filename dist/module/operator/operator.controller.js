@@ -47,7 +47,7 @@ let OperatorController = class OperatorController {
     }
     findByName(name) {
         if (!name) {
-            console.info("No se proporcionó un nombre de operador");
+            console.info('No se proporcionó un nombre de operador');
             return this.operatorService.findAllService();
         }
         return this.operatorService.findByName(name);
@@ -69,6 +69,9 @@ let OperatorController = class OperatorController {
                 : 'Operador actualizado',
             updatedOperator,
         };
+    }
+    async deleteMany(deleteOrdersDto) {
+        return this.operatorService.deleteMany(deleteOrdersDto.ids);
     }
     remove(id) {
         return this.operatorService.remove(+id);
@@ -142,6 +145,14 @@ __decorate([
     __metadata("design:paramtypes", [String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], OperatorController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)('deleteMany'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], OperatorController.prototype, "deleteMany", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
