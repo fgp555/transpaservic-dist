@@ -51,6 +51,6 @@ __decorate([
     __metadata("design:type", Date)
 ], NotificationEntity.prototype, "createdAt", void 0);
 exports.NotificationEntity = NotificationEntity = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)('notification')
 ], NotificationEntity);
 //# sourceMappingURL=notification.entity.js.map

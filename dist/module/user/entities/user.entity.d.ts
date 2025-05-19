@@ -19,8 +19,9 @@ export declare class UserEntity {
     image: string;
     role: UserRole;
     isVisible: boolean;
-    createdAt: Date;
     operator: OperatorEntity;
     devices: DeviceEntity[];
     wabla: WablaEntity;
+    createdAt: Date;
+    updatedAt: Date;
 }

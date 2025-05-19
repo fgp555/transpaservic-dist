@@ -88,6 +88,10 @@ __decorate([
     __metadata("design:type", String)
 ], WaMessageEntity.prototype, "status", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], WaMessageEntity.prototype, "category", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: 'longtext', nullable: true, select: false }),
     __metadata("design:type", String)
 ], WaMessageEntity.prototype, "payload", void 0);

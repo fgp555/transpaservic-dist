@@ -132,11 +132,9 @@ let UserService = class UserService {
             throw new common_1.NotFoundException(`User with id ${id} not found`);
         }
         try {
-            const updateResult = await this.userRepository.update(id, body);
-            if (updateResult.affected === 0) {
-                throw new common_1.InternalServerErrorException('Failed to update user');
-            }
-            return await this.userRepository.findOne({ where: { id: id } });
+            const updatedUser = this.userRepository.merge(findUser, body);
+            await this.userRepository.save(updatedUser);
+            return updatedUser;
         }
         catch (error) {
             console.error('Error updating user:', error);

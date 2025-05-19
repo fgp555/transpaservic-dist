@@ -12,4 +12,6 @@ export declare class OperatorEntity {
     orders: OrderEntity;
     users: UserEntity[];
     notifications: NotificationEntity[];
+    createdAt: Date;
+    updatedAt: Date;
 }

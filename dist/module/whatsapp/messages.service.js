@@ -61,12 +61,12 @@ let WaMessagesService = class WaMessagesService {
             lastMessageContent: payload.content,
             lastMessageTimestamp: Date.now(),
             lastMessageStatus: message_entity_1.MessageStatusEnum.SENT,
+            lastAgentInteraction: Date.now(),
         });
         return saved;
     }
     async sendMessageFrontend(payloadDto) {
         const timestamp = Date.now();
-        console.log('payloadDto', payloadDto);
         const payload = {
             messaging_product: 'whatsapp',
             to: payloadDto.to,
@@ -103,6 +103,8 @@ let WaMessagesService = class WaMessagesService {
             lastMessageContent: payloadDto.content,
             lastMessageTimestamp: Date.now(),
             lastMessageStatus: message_entity_1.MessageStatusEnum.SENT,
+            inSupportChat: true,
+            lastAgentInteraction: Date.now(),
         });
         return saved;
     }

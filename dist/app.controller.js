@@ -37,6 +37,7 @@ let AppController = class AppController {
           <h2>${process.env.DROPSCHEMA}</h2>
           <h2>${process.env.USE_SEEDER}</h2>
           <h2>${process.env.DEVELOPMENT_MODE}</h2>
+          <h2>${process.env.WHATSAPP_OPERATOR}</h2>
 
         </body>
       </html>

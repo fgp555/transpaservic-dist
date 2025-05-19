@@ -52,9 +52,6 @@ let SeederService = class SeederService {
         const wablas = await this.wablasSeederService.seed();
         const setting = await this.settingSeedService.seed();
         let order = null;
-        if (process.env.NODE_ENV !== 'production') {
-            order = await this.orderSeederService.seed();
-        }
         return {
             operador,
             user,

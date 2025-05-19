@@ -31,6 +31,6 @@ __decorate([
     __metadata("design:type", String)
 ], SettingEntity.prototype, "value", void 0);
 exports.SettingEntity = SettingEntity = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)('setting')
 ], SettingEntity);
 //# sourceMappingURL=setting.entity.js.map

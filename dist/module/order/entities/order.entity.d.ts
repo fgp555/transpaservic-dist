@@ -51,4 +51,7 @@ export declare class OrderEntity {
     backticketHistory: BackTicketEntity[];
     email: string;
     orderHistory: OrderHistoryEntity[];
+    createdAt: Date;
+    updatedAt: Date;
+    setExpirationDate(): void;
 }

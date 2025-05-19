@@ -21,7 +21,7 @@ let WaContactsService = class WaContactsService {
     constructor(contactsRepository) {
         this.contactsRepository = contactsRepository;
     }
-    async updateOrCreate({ userName, contactPhone, contactName, lastMessageContent, lastMessageTimestamp, lastMessageStatus, increaseUnread = false, }) {
+    async updateOrCreate({ userName, contactPhone, contactName, lastMessageContent, lastMessageTimestamp, lastMessageStatus, increaseUnread = false, inSupportChat, lastAgentInteraction, }) {
         let conversation = await this.contactsRepository.findOneBy({
             contactPhone,
         });
@@ -40,27 +40,20 @@ let WaContactsService = class WaContactsService {
             conversation.lastMessageContent = lastMessageContent;
             conversation.lastMessageTimestamp = lastMessageTimestamp;
             conversation.lastMessageStatus = lastMessageStatus;
-            if (contactName) {
+            if (contactName)
                 conversation.contactName = contactName;
-            }
-            if (userName) {
+            if (userName)
                 conversation.userName = userName;
-            }
-            if (increaseUnread) {
+            if (increaseUnread)
                 conversation.unreadCount += 1;
+            if (typeof inSupportChat === 'boolean') {
+                conversation.inSupportChat = inSupportChat;
+            }
+            if (lastAgentInteraction) {
+                conversation.lastAgentInteraction = lastAgentInteraction;
             }
         }
         return this.contactsRepository.save(conversation);
-    }
-    async markAsRead(userName, contactPhone) {
-        const conversation = await this.contactsRepository.findOneBy({
-            userName,
-            contactPhone,
-        });
-        if (conversation) {
-            conversation.unreadCount = 0;
-            await this.contactsRepository.save(conversation);
-        }
     }
     async findAll({ contactPhone, lastMessageStatus, from, to, page = 1, limit = 20, }) {
         const where = {};
@@ -107,6 +100,15 @@ let WaContactsService = class WaContactsService {
     }
     async save(conversation) {
         return this.contactsRepository.save(conversation);
+    }
+    async closeSupport(contactPhone) {
+        const contact = await this.contactsRepository.findOneBy({ contactPhone });
+        if (!contact) {
+            throw new common_1.NotFoundException(`No se encontró una conversación con el número: ${contactPhone}`);
+        }
+        contact.inSupportChat = false;
+        contact.lastAgentInteraction = null;
+        return this.contactsRepository.save(contact);
     }
 };
 exports.WaContactsService = WaContactsService;

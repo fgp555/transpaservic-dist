@@ -21,12 +21,14 @@ const operator_entity_1 = require("../operator/entities/operator.entity");
 const order_entity_1 = require("./entities/order.entity");
 const orderHelpers_1 = require("./helpers/orderHelpers");
 const template_service_1 = require("../whatsapp/template.service");
+const patient_service_1 = require("../patient/patient.service");
 let OrderSave2Service = class OrderSave2Service {
-    constructor(orderRepository, operatorRepository, notificationService, waTemplateService) {
+    constructor(orderRepository, operatorRepository, notificationService, waTemplateService, patientService) {
         this.orderRepository = orderRepository;
         this.operatorRepository = operatorRepository;
         this.notificationService = notificationService;
         this.waTemplateService = waTemplateService;
+        this.patientService = patientService;
     }
     async create(createOrderDto) {
         const { operatorContract, orderNumber } = createOrderDto;
@@ -45,35 +47,8 @@ let OrderSave2Service = class OrderSave2Service {
         const order = this.orderRepository.create(createOrderDto);
         try {
             const savedOrder = await this.orderRepository.save(order);
-            const findOperator = await this.operatorRepository.findOne({
-                where: { id: createOrderDto.operator.id },
-            });
-            const expirationDate = (0, orderHelpers_1.formatDate)(new Date(createOrderDto.creationDate).toISOString().split('T')[0], Number(process.env.ORDER_EXPIRATION_DAYS) || 45);
-            const orderPayload = {
-                to: (0, orderHelpers_1.addPrefix)(createOrderDto.userPhone),
-                template: {
-                    components: [
-                        {
-                            parameters: [
-                                { type: 'text', text: (0, orderHelpers_1.firstName)(createOrderDto.patientName) },
-                                { type: 'text', text: findOperator.name },
-                                { type: 'text', text: createOrderDto.itinerary },
-                                { type: 'text', text: expirationDate },
-                            ],
-                        },
-                    ],
-                },
-            };
-            if (createOrderDto.sendWhatsApp) {
-                try {
-                    const wa_resp = await this.waTemplateService.orden_emitida(orderPayload);
-                    return { wa_resp, order: savedOrder };
-                }
-                catch (waError) {
-                    console.error('Error enviando WhatsApp:', waError);
-                    return { wa_error: waError.message, order: savedOrder };
-                }
-            }
+            await this.addPatient(createOrderDto);
+            await this.sendWhatsAppMessage(createOrderDto, savedOrder);
             await this.notificationService.sendOperatorOrderNotifications([
                 createOrderDto.operator.id,
             ]);
@@ -122,6 +97,7 @@ let OrderSave2Service = class OrderSave2Service {
                 item.operator = operator;
                 operatorIds.add(operator.id);
             }
+            await this.addPatient(item);
         }
         for (const item of dataArray) {
             const [existingContract, existingOrder] = await Promise.all([
@@ -139,6 +115,9 @@ let OrderSave2Service = class OrderSave2Service {
             if (existingOrder) {
                 duplicates.orderNumberGroup.push(item);
                 continue;
+            }
+            if (typeof item.userPhone === 'string') {
+                item.userPhone = (0, orderHelpers_1.addPrefix)(item.userPhone);
             }
             const order = this.orderRepository.create(item);
             const savedOrder = await this.orderRepository.save(order);
@@ -221,6 +200,49 @@ let OrderSave2Service = class OrderSave2Service {
         }
         await this.orderRepository.save(expiredOrders);
     }
+    async addPatient(createOrderDto) {
+        const idCard = await this.patientService.findOneByIdCard(createOrderDto.idCard);
+        if (!idCard) {
+            const createTempDto = {
+                documentType: createOrderDto.documentType,
+                idCard: createOrderDto.idCard,
+                patientName: createOrderDto.patientName,
+                userPhone: createOrderDto.userPhone,
+            };
+            await this.patientService.create(createTempDto);
+        }
+    }
+    async sendWhatsAppMessage(createOrderDto, savedOrder) {
+        const findOperator = await this.operatorRepository.findOne({
+            where: { id: createOrderDto.operator.id },
+        });
+        const expirationDate = (0, orderHelpers_1.formatDate)(new Date(createOrderDto.creationDate).toISOString().split('T')[0], Number(process.env.ORDER_EXPIRATION_DAYS) || 45);
+        const orderPayload = {
+            to: (0, orderHelpers_1.addPrefix)(createOrderDto.userPhone),
+            template: {
+                components: [
+                    {
+                        parameters: [
+                            { type: 'text', text: (0, orderHelpers_1.firstName)(createOrderDto.patientName) },
+                            { type: 'text', text: findOperator.name },
+                            { type: 'text', text: createOrderDto.itinerary },
+                            { type: 'text', text: expirationDate },
+                        ],
+                    },
+                ],
+            },
+        };
+        if (createOrderDto.sendWhatsApp) {
+            try {
+                const wa_resp = await this.waTemplateService.orden_emitida(orderPayload);
+                return { wa_resp, order: savedOrder };
+            }
+            catch (waError) {
+                console.error('Error enviando WhatsApp:', waError);
+                return { wa_error: waError.message, order: savedOrder };
+            }
+        }
+    }
 };
 exports.OrderSave2Service = OrderSave2Service;
 exports.OrderSave2Service = OrderSave2Service = __decorate([
@@ -230,6 +252,7 @@ exports.OrderSave2Service = OrderSave2Service = __decorate([
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository,
         notification_service_1.NotificationService,
-        template_service_1.WaTemplateService])
+        template_service_1.WaTemplateService,
+        patient_service_1.PatientService])
 ], OrderSave2Service);
 //# sourceMappingURL=order-save2.service.js.map

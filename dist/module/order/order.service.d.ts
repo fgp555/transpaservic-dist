@@ -71,6 +71,8 @@ export declare class OrderService {
         backticketHistory: BackTicketEntity[];
         email: string;
         orderHistory: OrderHistoryEntity[];
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     findManyByPhone(userPhone: string): Promise<{
         operator: string;
@@ -103,6 +105,8 @@ export declare class OrderService {
         backticketHistory: BackTicketEntity[];
         email: string;
         orderHistory: OrderHistoryEntity[];
+        createdAt: Date;
+        updatedAt: Date;
     }[]>;
     orderNumber(orderNumber: string): Promise<{
         operator: string;
@@ -135,6 +139,8 @@ export declare class OrderService {
         backticketHistory: BackTicketEntity[];
         email: string;
         orderHistory: OrderHistoryEntity[];
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     createBackTicket(orderNumber: string, body: any): Promise<{
         operator: string;
@@ -167,6 +173,8 @@ export declare class OrderService {
         backticketHistory: BackTicketEntity[];
         email: string;
         orderHistory: OrderHistoryEntity[];
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     update(id: number, body: any): Promise<{
         operator: string;
@@ -199,6 +207,8 @@ export declare class OrderService {
         backticketHistory: BackTicketEntity[];
         email: string;
         orderHistory: OrderHistoryEntity[];
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     deleteBackTicket(id: number): Promise<import("typeorm").DeleteResult>;
     remove(id: number): Promise<import("typeorm").DeleteResult>;

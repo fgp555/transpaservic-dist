@@ -36,6 +36,9 @@ const message_entity_1 = require("../whatsapp/entities/message.entity");
 const contacts_service_1 = require("../whatsapp/contacts.service");
 const whatsapp_module_1 = require("../whatsapp/whatsapp.module");
 const contacts_entity_1 = require("../whatsapp/entities/contacts.entity");
+const patient_service_1 = require("../patient/patient.service");
+const patient_entity_1 = require("../patient/entities/patient.entity");
+const travelDates_entity_1 = require("../patient/entities/travelDates.entity");
 let OrderModule = class OrderModule {
 };
 exports.OrderModule = OrderModule;
@@ -55,6 +58,8 @@ exports.OrderModule = OrderModule = __decorate([
                 contacts_entity_1.WaContactsEntity,
                 message_entity_1.WaMessageEntity,
                 message_entity_1.WaMessageEntity,
+                patient_entity_1.PatientEntity,
+                travelDates_entity_1.TravelDatesEntity,
             ]),
             whatsapp_module_1.WhatsappModule,
         ],
@@ -72,6 +77,7 @@ exports.OrderModule = OrderModule = __decorate([
             messages_service_1.WaMessagesService,
             template_service_1.WaTemplateService,
             websocket_gateway_1.WSGateway,
+            patient_service_1.PatientService,
         ],
     })
 ], OrderModule);

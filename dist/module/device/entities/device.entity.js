@@ -49,6 +49,6 @@ __decorate([
     __metadata("design:type", Date)
 ], DeviceEntity.prototype, "updatedAt", void 0);
 exports.DeviceEntity = DeviceEntity = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)('device')
 ], DeviceEntity);
 //# sourceMappingURL=device.entity.js.map

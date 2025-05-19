@@ -22,6 +22,7 @@ export declare class WaMessageEntity {
     reactionToMessageId?: string;
     reactionEmoji?: string;
     status: MessageStatusEnum;
+    category?: string;
     payload: string;
     createdAt: Date;
     updatedAt: Date;

@@ -17,11 +17,11 @@ const common_1 = require("@nestjs/common");
 const contacts_service_1 = require("./contacts.service");
 const message_entity_1 = require("./entities/message.entity");
 let WaContactsController = class WaContactsController {
-    constructor(service) {
-        this.service = service;
+    constructor(waContactsService) {
+        this.waContactsService = waContactsService;
     }
     findAll(contactPhone, lastMessageStatus, from, to, page = 1, limit = 20) {
-        return this.service.findAll({
+        return this.waContactsService.findAll({
             contactPhone,
             lastMessageStatus,
             from,
@@ -31,7 +31,10 @@ let WaContactsController = class WaContactsController {
         });
     }
     findByContactPhone(contactPhone) {
-        return this.service.findByContactPhone(contactPhone);
+        return this.waContactsService.findByContactPhone(contactPhone);
+    }
+    closeSupport(contactPhone) {
+        return this.waContactsService.closeSupport(contactPhone);
     }
 };
 exports.WaContactsController = WaContactsController;
@@ -54,6 +57,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], WaContactsController.prototype, "findByContactPhone", null);
+__decorate([
+    (0, common_1.Post)('close-support/:contactPhone'),
+    __param(0, (0, common_1.Param)('contactPhone')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], WaContactsController.prototype, "closeSupport", null);
 exports.WaContactsController = WaContactsController = __decorate([
     (0, common_1.Controller)('whatsapp/contacts'),
     __metadata("design:paramtypes", [contacts_service_1.WaContactsService])

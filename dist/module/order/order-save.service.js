@@ -22,6 +22,7 @@ const notification_service_1 = require("../notification/notification.service");
 const operator_entity_1 = require("../operator/entities/operator.entity");
 const order_entity_1 = require("./entities/order.entity");
 const wablas_service_1 = require("../wablas/wablas.service");
+const orderHelpers_1 = require("./helpers/orderHelpers");
 let OrderSaveService = class OrderSaveService {
     constructor(orderRepository, backTicketRepository, orderHistoryRepository, operatorRepository, wablasService, notificationService) {
         this.orderRepository = orderRepository;
@@ -71,6 +72,9 @@ let OrderSaveService = class OrderSaveService {
                 if (typeof item.userPhone === 'string' &&
                     item.userPhone.includes(' / ')) {
                     item.userPhone = item.userPhone.split(' / ')[0].trim();
+                }
+                if (typeof item.userPhone === 'string') {
+                    item.userPhone = (0, orderHelpers_1.addPrefix)(item.userPhone);
                 }
                 if (!item.expirationDate) {
                     const expirationDays = Number(process.env.ORDER_EXPIRATION_DAYS) || 45;

@@ -75,6 +75,8 @@ export declare class OrderController {
         backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
         email: string;
         orderHistory: import("./entities/order-history.entity").OrderHistoryEntity[];
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     findManyByPhone(userPhone: string): Promise<{
         operator: string;
@@ -107,6 +109,8 @@ export declare class OrderController {
         backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
         email: string;
         orderHistory: import("./entities/order-history.entity").OrderHistoryEntity[];
+        createdAt: Date;
+        updatedAt: Date;
     }[]>;
     findOneOrderNumber(orderNumber: string): Promise<{
         operator: string;
@@ -139,6 +143,8 @@ export declare class OrderController {
         backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
         email: string;
         orderHistory: import("./entities/order-history.entity").OrderHistoryEntity[];
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     createBackTicket(orderNumber: string, body: any): Promise<{
         operator: string;
@@ -171,6 +177,8 @@ export declare class OrderController {
         backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
         email: string;
         orderHistory: import("./entities/order-history.entity").OrderHistoryEntity[];
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     update(id: string, updateOrderDto: UpdateOrderDto): Promise<{
         operator: string;
@@ -203,6 +211,8 @@ export declare class OrderController {
         backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
         email: string;
         orderHistory: import("./entities/order-history.entity").OrderHistoryEntity[];
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     deleteBackTicket(id: string): Promise<import("typeorm").DeleteResult>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;

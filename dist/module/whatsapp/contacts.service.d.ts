@@ -1,19 +1,11 @@
 import { WaContactsEntity } from './entities/contacts.entity';
-import { Repository } from 'typeorm';
 import { MessageStatusEnum } from './entities/message.entity';
+import { IUpdateOrCreate } from './intefaces/IWhatapp';
+import { Repository } from 'typeorm';
 export declare class WaContactsService {
     private readonly contactsRepository;
     constructor(contactsRepository: Repository<WaContactsEntity>);
-    updateOrCreate({ userName, contactPhone, contactName, lastMessageContent, lastMessageTimestamp, lastMessageStatus, increaseUnread, }: {
-        userName?: string;
-        contactPhone: string;
-        contactName?: string;
-        lastMessageContent: string;
-        lastMessageTimestamp: number;
-        lastMessageStatus: MessageStatusEnum;
-        increaseUnread?: boolean;
-    }): Promise<WaContactsEntity>;
-    markAsRead(userName: string, contactPhone: string): Promise<void>;
+    updateOrCreate({ userName, contactPhone, contactName, lastMessageContent, lastMessageTimestamp, lastMessageStatus, increaseUnread, inSupportChat, lastAgentInteraction, }: IUpdateOrCreate): Promise<WaContactsEntity>;
     findAll({ contactPhone, lastMessageStatus, from, to, page, limit, }: {
         contactPhone?: string;
         lastMessageStatus?: MessageStatusEnum;
@@ -30,4 +22,5 @@ export declare class WaContactsService {
     }>;
     findByContactPhone(phone: string): Promise<WaContactsEntity>;
     save(conversation: WaContactsEntity): Promise<WaContactsEntity>;
+    closeSupport(contactPhone: string): Promise<WaContactsEntity>;
 }

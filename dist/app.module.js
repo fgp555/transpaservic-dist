@@ -26,6 +26,7 @@ const notification_module_1 = require("./module/notification/notification.module
 const websocket_module_1 = require("./module/websocket/websocket.module");
 const seeder_module_1 = require("./seeder/seeder.module");
 const whatsapp_module_1 = require("./module/whatsapp/whatsapp.module");
+const patient_module_1 = require("./module/patient/patient.module");
 const modules = [
     db_module_2.DbConfigModule,
     schedule_1.ScheduleModule.forRoot(),
@@ -41,6 +42,7 @@ const modules = [
     websocket_module_1.WSModule,
     seeder_module_1.SeederModule,
     whatsapp_module_1.WhatsappModule,
+    patient_module_1.PatientModule,
     order_module_1.OrderModule,
     operator_module_1.OperatorModule,
 ];

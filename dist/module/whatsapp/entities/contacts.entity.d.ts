@@ -8,6 +8,8 @@ export declare class WaContactsEntity {
     lastMessageTimestamp: number;
     lastMessageStatus: MessageStatusEnum;
     unreadCount: number;
+    inSupportChat?: boolean;
+    lastAgentInteraction?: number;
     createdAt: Date;
     updatedAt: Date;
 }

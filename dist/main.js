@@ -23,7 +23,7 @@ async function bootstrap() {
     }
     app.use(morgan('dev'));
     app.use(bodyParser.text());
-    app.use(bodyParser.json({ limit: '2mb' }));
+    app.use(bodyParser.json({ limit: '3mb' }));
     app.useStaticAssets((0, path_1.join)(__dirname, '..', 'uploads'), {
         prefix: '/uploads/',
     });

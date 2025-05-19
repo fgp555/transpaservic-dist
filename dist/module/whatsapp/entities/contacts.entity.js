@@ -52,6 +52,14 @@ __decorate([
     __metadata("design:type", Number)
 ], WaContactsEntity.prototype, "unreadCount", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ default: false }),
+    __metadata("design:type", Boolean)
+], WaContactsEntity.prototype, "inSupportChat", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'bigint', nullable: true }),
+    __metadata("design:type", Number)
+], WaContactsEntity.prototype, "lastAgentInteraction", void 0);
+__decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], WaContactsEntity.prototype, "createdAt", void 0);

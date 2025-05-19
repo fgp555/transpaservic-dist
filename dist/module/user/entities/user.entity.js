@@ -67,10 +67,6 @@ __decorate([
     __metadata("design:type", Boolean)
 ], UserEntity.prototype, "isVisible", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)(),
-    __metadata("design:type", Date)
-], UserEntity.prototype, "createdAt", void 0);
-__decorate([
     (0, typeorm_1.ManyToOne)(() => operator_entity_1.OperatorEntity, (t) => t.users, {}),
     __metadata("design:type", operator_entity_1.OperatorEntity)
 ], UserEntity.prototype, "operator", void 0);
@@ -82,6 +78,14 @@ __decorate([
     (0, typeorm_1.OneToOne)(() => wabla_entity_1.WablaEntity, (w) => w.user, {}),
     __metadata("design:type", wabla_entity_1.WablaEntity)
 ], UserEntity.prototype, "wabla", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], UserEntity.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], UserEntity.prototype, "updatedAt", void 0);
 exports.UserEntity = UserEntity = __decorate([
     (0, typeorm_1.Entity)('users')
 ], UserEntity);

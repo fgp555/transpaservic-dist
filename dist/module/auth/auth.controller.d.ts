@@ -14,10 +14,11 @@ export declare class AuthController {
             image: string;
             role: import("../user/entities/user.entity").UserRole;
             isVisible: boolean;
-            createdAt: Date;
             operator: import("../operator/entities/operator.entity").OperatorEntity;
             devices: import("../device/entities/device.entity").DeviceEntity[];
             wabla: import("../wablas/entities/wabla.entity").WablaEntity;
+            createdAt: Date;
+            updatedAt: Date;
         };
         token: string;
         loginDate: string;
@@ -34,10 +35,11 @@ export declare class AuthController {
             image: string;
             role: import("../user/entities/user.entity").UserRole;
             isVisible: boolean;
-            createdAt: Date;
             operator: import("../operator/entities/operator.entity").OperatorEntity;
             devices: import("../device/entities/device.entity").DeviceEntity[];
             wabla: import("../wablas/entities/wabla.entity").WablaEntity;
+            createdAt: Date;
+            updatedAt: Date;
         };
         token: string;
         loginDate: string;
@@ -54,10 +56,11 @@ export declare class AuthController {
             image: string;
             role: import("../user/entities/user.entity").UserRole;
             isVisible: boolean;
-            createdAt: Date;
             operator: import("../operator/entities/operator.entity").OperatorEntity;
             devices: import("../device/entities/device.entity").DeviceEntity[];
             wabla: import("../wablas/entities/wabla.entity").WablaEntity;
+            createdAt: Date;
+            updatedAt: Date;
         };
         sendMail: {
             message: string;
@@ -74,10 +77,11 @@ export declare class AuthController {
             image: string;
             role: import("../user/entities/user.entity").UserRole;
             isVisible: boolean;
-            createdAt: Date;
             operator: import("../operator/entities/operator.entity").OperatorEntity;
             devices: import("../device/entities/device.entity").DeviceEntity[];
             wabla: import("../wablas/entities/wabla.entity").WablaEntity;
+            createdAt: Date;
+            updatedAt: Date;
         };
         sendMail?: undefined;
     }>;
@@ -90,9 +94,10 @@ export declare class AuthController {
         image: string;
         role: import("../user/entities/user.entity").UserRole;
         isVisible: boolean;
-        createdAt: Date;
         operator: import("../operator/entities/operator.entity").OperatorEntity;
         devices: import("../device/entities/device.entity").DeviceEntity[];
         wabla: import("../wablas/entities/wabla.entity").WablaEntity;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
 }

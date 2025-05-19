@@ -34,5 +34,7 @@ export declare class GetOrderService {
         backticketHistory: import("./entities/back-ticket.entity").BackTicketEntity[];
         email: string;
         orderHistory: import("./entities/order-history.entity").OrderHistoryEntity[];
+        createdAt: Date;
+        updatedAt: Date;
     }[]>;
 }

@@ -47,6 +47,6 @@ __decorate([
     __metadata("design:type", Date)
 ], OrderHistoryEntity.prototype, "modifiedAt", void 0);
 exports.OrderHistoryEntity = OrderHistoryEntity = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)('order_history')
 ], OrderHistoryEntity);
 //# sourceMappingURL=order-history.entity.js.map

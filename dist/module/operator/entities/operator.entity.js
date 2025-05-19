@@ -60,6 +60,14 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => notification_entity_1.NotificationEntity, (notification) => notification.operator),
     __metadata("design:type", Array)
 ], OperatorEntity.prototype, "notifications", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], OperatorEntity.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], OperatorEntity.prototype, "updatedAt", void 0);
 exports.OperatorEntity = OperatorEntity = __decorate([
     (0, typeorm_1.Entity)('operator')
 ], OperatorEntity);

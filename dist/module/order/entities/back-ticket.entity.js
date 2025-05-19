@@ -40,6 +40,6 @@ __decorate([
     __metadata("design:type", Date)
 ], BackTicketEntity.prototype, "createdAt", void 0);
 exports.BackTicketEntity = BackTicketEntity = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)('order_backticket')
 ], BackTicketEntity);
 //# sourceMappingURL=back-ticket.entity.js.map
